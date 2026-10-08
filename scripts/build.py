@@ -43,8 +43,15 @@ session = requests.Session()
 session.headers["User-Agent"] = "quran-videos/1.0 (+https://github.com)"
 
 
+def redact(text):
+    """Never let the Pixabay key reach the (public) build log."""
+    key = os.environ.get("PIXABAY_API_KEY")
+    text = str(text)
+    return text.replace(key, "***") if key else text
+
+
 def log(*a):
-    print(*a, flush=True)
+    print(redact(" ".join(str(x) for x in a)), flush=True)
 
 
 def get_json(url, params=None, tries=5):
@@ -54,6 +61,10 @@ def get_json(url, params=None, tries=5):
             if r.status_code == 429:
                 time.sleep(10 * (i + 1))
                 continue
+            if r.status_code >= 400:
+                log(f"  HTTP {r.status_code} from {url}: {r.text[:300]}")
+                if 400 <= r.status_code < 500:
+                    raise SystemExit(f"Request refused by {url} (HTTP {r.status_code})")
             r.raise_for_status()
             return r.json()
         except requests.RequestException as e:
@@ -472,4 +483,13 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except SystemExit as e:
+        if e.code not in (0, None):
+            log("ERROR:", e.code)
+            sys.exit(1)
+    except Exception:
+        import traceback
+        log("ERROR:\n" + traceback.format_exc())
+        sys.exit(1)

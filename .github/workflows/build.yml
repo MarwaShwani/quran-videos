@@ -59,10 +59,12 @@ jobs:
         env:
           PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
         run: |
-          python scripts/build.py \
+          if [ -z "$PIXABAY_API_KEY" ]; then echo "ERROR: secret PIXABAY_API_KEY is empty or missing"; fi
+          set -o pipefail
+          python -u scripts/build.py \
             --count "${{ steps.batch.outputs.count }}" \
             --start-date "${{ steps.batch.outputs.start }}" \
-            --tag "${{ steps.batch.outputs.tag }}"
+            --tag "${{ steps.batch.outputs.tag }}" 2>&1 | tee build.log
 
       - name: Save background library (first run only)
         run: |
@@ -88,3 +90,15 @@ jobs:
           git add state.json manifests
           git commit -m "Batch $TAG"
           git push
+
+      - name: Save build log
+        if: always()
+        run: |
+          mkdir -p logs
+          { echo "run: ${{ github.run_id }}  job status: ${{ job.status }}  $(date -u)"; cat build.log 2>/dev/null; } > logs/last-build.log
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add logs/last-build.log
+          git commit -m "Build log ${{ github.run_id }}" || exit 0
+          git pull --rebase -q origin main || true
+          git push || true
