@@ -369,7 +369,9 @@ def ayah_range_text(clip):
 
 def render(clip, bg_path, overlay_path, out_path, work):
     lst = work / "concat.txt"
-    lst.write_text("".join(f"file '{p}'\n" for p in clip["parts"]), encoding="utf-8")
+    # ffmpeg resolves relative paths against the list file, so always write absolute ones.
+    lst.write_text("".join(f"file '{pathlib.Path(p).resolve()}'\n" for p in clip["parts"]),
+                   encoding="utf-8")
     wav = work / "audio.wav"
     run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", str(lst),
          "-ar", "48000", "-ac", "2", str(wav)])
@@ -429,7 +431,7 @@ def main():
     ap.add_argument("--work", default="work")
     args = ap.parse_args()
 
-    out, work, lib = (pathlib.Path(p) for p in (args.out, args.work, args.library))
+    out, work, lib = (pathlib.Path(p).resolve() for p in (args.out, args.work, args.library))
     out.mkdir(parents=True, exist_ok=True)
     work.mkdir(parents=True, exist_ok=True)
     state = json.loads(STATE_PATH.read_text(encoding="utf-8"))

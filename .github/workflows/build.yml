@@ -68,6 +68,8 @@ jobs:
             --tag "${{ steps.batch.outputs.tag }}" 2>&1 | tee build.log
 
       - name: Save background library (first run only)
+        # Runs even if building the clips failed, so the downloaded backgrounds are kept.
+        if: always()
         run: |
           if [ -f library/.new ]; then
             gh release create library -R "$GITHUB_REPOSITORY" \
