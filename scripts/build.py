@@ -113,19 +113,9 @@ def duration(path):
 
 # ---------------------------------------------------------------- Quran data
 
-def find_recitation_id():
-    rc = CONFIG["reciter"]
-    if rc.get("recitation_id"):
-        return int(rc["recitation_id"])
-    data = get_json(f"{QURAN_API}/resources/recitations", {"language": "en"})
-    for r in data["recitations"]:
-        name = (r.get("reciter_name") or "").lower()
-        style = (r.get("style") or "").lower()
-        if rc["quran_com_reciter_match"] in name and rc["quran_com_style_match"] in style:
-            log(f"Recitation: id={r['id']} {r['reciter_name']} ({r.get('style')})")
-            return int(r["id"])
-    raise SystemExit("Could not find the reciter on quran.com: "
-                     + json.dumps(data["recitations"], ensure_ascii=False))
+def recitations():
+    """{style: recitation id on quran.com}, e.g. {"mujawwad": 8, "murattal": 9}."""
+    return {k: int(v["id"]) for k, v in CONFIG["reciter"]["recitations"].items()}
 
 
 def load_chapters():
@@ -137,8 +127,8 @@ _audio_index = {}
 
 
 def chapter_audio_urls(rec_id, chapter):
-    if chapter in _audio_index:
-        return _audio_index[chapter]
+    if (rec_id, chapter) in _audio_index:
+        return _audio_index[(rec_id, chapter)]
     urls, page = {}, 1
     while True:
         data = get_json(f"{QURAN_API}/recitations/{rec_id}/by_chapter/{chapter}",
@@ -154,7 +144,7 @@ def chapter_audio_urls(rec_id, chapter):
         if not nxt:
             break
         page = nxt
-    _audio_index[chapter] = urls
+    _audio_index[(rec_id, chapter)] = urls
     return urls
 
 
@@ -175,15 +165,66 @@ class Audio:
         return self._dur[k]
 
 
-def plan_clip(state, chapters, audio):
-    """Return (clip, new_state). A clip never crosses a surah boundary."""
-    cmin = CONFIG["clip"]["min_seconds"]
-    cmax = CONFIG["clip"]["max_seconds"]
+def whole_surah_if_short(s, ch, audio):
+    """Total seconds of the whole surah (plus basmala) in the short-surah style,
+    or None if the surah is too long to be one video."""
+    cfg = CONFIG["short_surahs"]
+    limit = cfg["max_seconds"]
+    if s not in cfg.get("always", []) and ch["verses_count"] > 40:
+        return None                      # obviously long - don't download it all
+    total = 0.0
+    if ch.get("bismillah_pre") and CONFIG["clip"]["prepend_basmala"]:
+        total += audio.dur(1, 1)
+    for x in range(1, ch["verses_count"] + 1):
+        total += audio.dur(s, x)
+        if total > limit and s not in cfg.get("always", []):
+            return None
+    return total
+
+
+def advance(state, s, last, n):
+    new = dict(state)
+    if last >= n:
+        if s == 114:
+            new["next_surah"], new["next_ayah"] = 1, 1
+            new["khatmas_completed"] = state.get("khatmas_completed", 0) + 1
+        else:
+            new["next_surah"], new["next_ayah"] = s + 1, 1
+    else:
+        new["next_surah"], new["next_ayah"] = s, last + 1
+    return new
+
+
+def plan_clip(state, chapters, audios):
+    """Return (clip, new_state). A clip never crosses a surah boundary.
+
+    audios: {style: Audio}. Al-Fatiha and short surahs become one whole-surah
+    video in the short-surah style; everything else is cut into 30-60 s clips
+    in the default style, never splitting an ayah."""
     s, a = state["next_surah"], state["next_ayah"]
     ch = chapters[s]
     n = ch["verses_count"]
+    basmala = bool(ch.get("bismillah_pre") and CONFIG["clip"]["prepend_basmala"])
+
+    if a == 1:
+        short_style = CONFIG["short_surahs"]["style"]
+        sa = audios[short_style]
+        total = whole_surah_if_short(s, ch, sa)
+        if total is not None:
+            parts = ([sa.path(1, 1)] if basmala else []) + \
+                    [sa.path(s, x) for x in range(1, n + 1)]
+            clip = {"surah_number": s, "surah_name": ch["name_arabic"], "from_ayah": 1,
+                    "to_ayah": n, "whole_surah": True, "with_basmala": basmala,
+                    "style": short_style, "audio_seconds": round(total, 2),
+                    "parts": [str(p) for p in parts]}
+            return clip, advance(state, s, n, n)
+
+    style = CONFIG["reciter"]["default_style"]
+    audio = audios[style]
+    cmin = CONFIG["clip"]["min_seconds"]
+    cmax = CONFIG["clip"]["max_seconds"]
     parts, total = [], 0.0
-    with_basmala = (a == 1 and ch.get("bismillah_pre") and CONFIG["clip"]["prepend_basmala"])
+    with_basmala = a == 1 and basmala
     if with_basmala:
         parts.append(audio.path(1, 1))
         total += audio.dur(1, 1)
@@ -205,19 +246,11 @@ def plan_clip(state, chapters, audio):
                 parts.append(audio.path(s, x))
             total += rest
             last = n
-    new = dict(state)
-    if last >= n:
-        if s == 114:
-            new["next_surah"], new["next_ayah"] = 1, 1
-            new["khatmas_completed"] = state.get("khatmas_completed", 0) + 1
-        else:
-            new["next_surah"], new["next_ayah"] = s + 1, 1
-    else:
-        new["next_surah"], new["next_ayah"] = s, last + 1
     clip = {"surah_number": s, "surah_name": ch["name_arabic"], "from_ayah": first,
-            "to_ayah": last, "with_basmala": bool(with_basmala),
+            "to_ayah": last, "whole_surah": first == 1 and last == n,
+            "with_basmala": bool(with_basmala), "style": style,
             "audio_seconds": round(total, 2), "parts": [str(p) for p in parts]}
-    return clip, new
+    return clip, advance(state, s, last, n)
 
 
 # --------------------------------------------------------------- backgrounds
@@ -360,8 +393,10 @@ def make_overlay(clip, path):
     img.save(path)
 
 
-def ayah_range_text(clip):
+def ayah_range_text(clip, for_caption=False):
     a, b = clip["from_ayah"], clip["to_ayah"]
+    if clip.get("whole_surah"):
+        return "كاملة" if for_caption else "السورة كاملة"
     if a == b:
         return f"الآية {str(a).translate(AR_DIGITS)}"
     return f"الآيات {str(a).translate(AR_DIGITS)} - {str(b).translate(AR_DIGITS)}"
@@ -403,8 +438,10 @@ def caption(clip):
     rc = CONFIG["reciter"]
     surah_tag = c["surah_hashtag_prefix"] + clip["surah_name"].replace(" ", "_")
     tags = " ".join(c["hashtags"] + [surah_tag])
-    return c["template"].format(surah=clip["surah_name"], range=ayah_range_text(clip),
-                                reciter=rc["name_ar"], style=rc["style_ar"], hashtags=tags)
+    style_ar = rc["recitations"][clip["style"]]["style_ar"]
+    return c["template"].format(surah=clip["surah_name"],
+                                range=ayah_range_text(clip, for_caption=True),
+                                reciter=rc["name_ar"], style=style_ar, hashtags=tags)
 
 
 def slots(start_date, count):
@@ -437,9 +474,9 @@ def main():
     state = json.loads(STATE_PATH.read_text(encoding="utf-8"))
     log("Start position:", state)
 
-    rec_id = find_recitation_id()
+    rec_ids = recitations()
     chapters = load_chapters()
-    audio = Audio(rec_id, work / "audio")
+    audios = {style: Audio(rid, work / "audio" / str(rid)) for style, rid in rec_ids.items()}
     library = load_library(lib)
     repo = os.environ.get("GITHUB_REPOSITORY", "OWNER/REPO")
     start = dt.date.fromisoformat(args.start_date)
@@ -447,7 +484,7 @@ def main():
 
     entries = []
     for i in range(args.count):
-        clip, state = plan_clip(state, chapters, audio)
+        clip, state = plan_clip(state, chapters, audios)
         bg = library[state["next_background"] % len(library)]
         state["next_background"] = state["next_background"] + 1
         name = (f"{clip['surah_number']:03d}_{clip['from_ayah']:03d}-"
@@ -465,6 +502,8 @@ def main():
             "from_ayah": clip["from_ayah"],
             "to_ayah": clip["to_ayah"],
             "with_basmala": clip["with_basmala"],
+            "whole_surah": clip["whole_surah"],
+            "style": clip["style"],
             "seconds": secs,
             "publish_at": times[i],
             "caption": caption(clip),
@@ -475,7 +514,7 @@ def main():
         log(f"[{i + 1}/{args.count}] {name}  {secs:.1f}s  {entry['publish_at']}")
 
     manifest = {"tag": args.tag, "created": dt.datetime.now(dt.timezone.utc).isoformat(),
-                "recitation_id": rec_id, "start_date": args.start_date,
+                "recitation_ids": rec_ids, "start_date": args.start_date,
                 "posts": entries}
     (out / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2),
                                        encoding="utf-8")
