@@ -1,4 +1,4 @@
-run: 37757678085  job status: failure  Thu Oct  8 10:00:13 UTC 2026
+run: 37761189068  job status: success  Thu Oct  8 10:46:57 UTC 2026
 Start position: {'next_surah': 1, 'next_ayah': 1, 'next_background': 0, 'clips_made': 0, 'khatmas_completed': 0}
 Building background library from Pixabay ...
   background 1: waterfall -> https://pixabay.com/videos/id-228847/
@@ -41,10 +41,25 @@ Building background library from Pixabay ...
   background 38: green hills -> https://pixabay.com/videos/id-25739/
   background 39: green hills -> https://pixabay.com/videos/id-245580/
   background 40: autumn forest -> https://pixabay.com/videos/id-311442/
-COMMAND FAILED: ffmpeg -y -v error -f concat -safe 0 -i work/concat.txt -ar 48000 -ac 2 work/audio.wav
-[concat @ 0x55d96e7f2ec0] Impossible to open 'work/work/audio/001001.mp3'
-[in#0 @ 0x55d96e7f2dc0] Error opening input: No such file or directory
-Error opening input file work/concat.txt.
-Error opening input files: No such file or directory
-
-ERROR: 1
+[1/21] 001_001-003.mp4  45.9s  2026-10-09T10:00:00+03:00
+[2/21] 001_004-005.mp4  42.4s  2026-10-09T12:00:00+03:00
+[3/21] 001_006-007.mp4  47.2s  2026-10-09T18:00:00+03:00
+[4/21] 002_001-002.mp4  46.1s  2026-10-10T10:00:00+03:00
+[5/21] 002_003-003.mp4  29.6s  2026-10-10T12:00:00+03:00
+[6/21] 002_004-004.mp4  35.2s  2026-10-10T18:00:00+03:00
+[7/21] 002_005-006.mp4  60.4s  2026-10-11T10:00:00+03:00
+[8/21] 002_007-007.mp4  40.6s  2026-10-11T12:00:00+03:00
+[9/21] 002_008-008.mp4  30.1s  2026-10-11T18:00:00+03:00
+[10/21] 002_009-009.mp4  33.5s  2026-10-12T10:00:00+03:00
+[11/21] 002_010-010.mp4  39.4s  2026-10-12T12:00:00+03:00
+[12/21] 002_011-012.mp4  43.0s  2026-10-12T18:00:00+03:00
+[13/21] 002_013-013.mp4  53.5s  2026-10-13T10:00:00+03:00
+[14/21] 002_014-014.mp4  50.5s  2026-10-13T12:00:00+03:00
+[15/21] 002_015-016.mp4  56.2s  2026-10-13T18:00:00+03:00
+[16/21] 002_017-017.mp4  50.8s  2026-10-14T10:00:00+03:00
+[17/21] 002_018-018.mp4  21.6s  2026-10-14T12:00:00+03:00
+[18/21] 002_019-019.mp4  70.8s  2026-10-14T18:00:00+03:00
+[19/21] 002_020-020.mp4  69.9s  2026-10-15T10:00:00+03:00
+[20/21] 002_021-021.mp4  32.7s  2026-10-15T12:00:00+03:00
+[21/21] 002_022-022.mp4  87.9s  2026-10-15T18:00:00+03:00
+Next position: {'next_surah': 2, 'next_ayah': 23, 'next_background': 21, 'clips_made': 21, 'khatmas_completed': 0}
