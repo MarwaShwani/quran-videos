@@ -57,7 +57,8 @@ jobs:
 
       - name: Build videos
         env:
-          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
+          # The Pixabay key is saved in the repo under the name PEXELS_API_KEY.
+          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY || secrets.PEXELS_API_KEY }}
         run: |
           if [ -z "$PIXABAY_API_KEY" ]; then echo "ERROR: secret PIXABAY_API_KEY is empty or missing"; fi
           set -o pipefail
