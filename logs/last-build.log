@@ -1,65 +1,25 @@
-run: 37761189068  job status: success  Thu Oct  8 10:46:57 UTC 2026
+run: 37767412795  job status: success  Thu Oct  8 11:23:15 UTC 2026
 Start position: {'next_surah': 1, 'next_ayah': 1, 'next_background': 0, 'clips_made': 0, 'khatmas_completed': 0}
-Building background library from Pixabay ...
-  background 1: waterfall -> https://pixabay.com/videos/id-228847/
-  background 2: waterfall -> https://pixabay.com/videos/id-358693/
-  background 3: waterfall -> https://pixabay.com/videos/id-246856/
-  background 4: mountains clouds -> https://pixabay.com/videos/id-285663/
-  background 5: mountains clouds -> https://pixabay.com/videos/id-169951/
-  background 6: mountains clouds -> https://pixabay.com/videos/id-305657/
-  background 7: ocean waves -> https://pixabay.com/videos/id-283533/
-  background 8: ocean waves -> https://pixabay.com/videos/id-4006/
-  background 9: ocean waves -> https://pixabay.com/videos/id-19368/
-  background 10: forest fog -> https://pixabay.com/videos/id-164360/
-  background 11: forest fog -> https://pixabay.com/videos/id-59291/
-  background 12: forest fog -> https://pixabay.com/videos/id-189813/
-  background 13: sunset sky -> https://pixabay.com/videos/id-201308/
-  background 14: sunset sky -> https://pixabay.com/videos/id-206272/
-  background 15: sunset sky -> https://pixabay.com/videos/id-1844/
-  background 16: river stream -> https://pixabay.com/videos/id-174860/
-  background 17: river stream -> https://pixabay.com/videos/id-240320/
-  background 18: river stream -> https://pixabay.com/videos/id-169249/
-  background 19: desert dunes -> https://pixabay.com/videos/id-284568/
-  background 20: desert dunes -> https://pixabay.com/videos/id-284566/
-  background 21: desert dunes -> https://pixabay.com/videos/id-26085/
-  background 22: snowy mountains -> https://pixabay.com/videos/id-25477/
-  background 23: snowy mountains -> https://pixabay.com/videos/id-348057/
-  background 24: snowy mountains -> https://pixabay.com/videos/id-200449/
-  background 25: lake reflection -> https://pixabay.com/videos/id-186405/
-  background 26: lake reflection -> https://pixabay.com/videos/id-188595/
-  background 27: lake reflection -> https://pixabay.com/videos/id-292827/
-  background 28: clouds timelapse -> https://pixabay.com/videos/id-190332/
-  background 29: clouds timelapse -> https://pixabay.com/videos/id-28975/
-  background 30: clouds timelapse -> https://pixabay.com/videos/id-95188/
-  background 31: rain leaves -> https://pixabay.com/videos/id-172759/
-  background 32: rain leaves -> https://pixabay.com/videos/id-28385/
-  background 33: rain leaves -> https://pixabay.com/videos/id-85526/
-  background 34: night sky stars -> https://pixabay.com/videos/id-10339/
-  background 35: night sky stars -> https://pixabay.com/videos/id-144597/
-  background 36: night sky stars -> https://pixabay.com/videos/id-134252/
-  background 37: green hills -> https://pixabay.com/videos/id-137211/
-  background 38: green hills -> https://pixabay.com/videos/id-25739/
-  background 39: green hills -> https://pixabay.com/videos/id-245580/
-  background 40: autumn forest -> https://pixabay.com/videos/id-311442/
-[1/21] 001_001-003.mp4  45.9s  2026-10-09T10:00:00+03:00
-[2/21] 001_004-005.mp4  42.4s  2026-10-09T12:00:00+03:00
-[3/21] 001_006-007.mp4  47.2s  2026-10-09T18:00:00+03:00
-[4/21] 002_001-002.mp4  46.1s  2026-10-10T10:00:00+03:00
-[5/21] 002_003-003.mp4  29.6s  2026-10-10T12:00:00+03:00
-[6/21] 002_004-004.mp4  35.2s  2026-10-10T18:00:00+03:00
-[7/21] 002_005-006.mp4  60.4s  2026-10-11T10:00:00+03:00
-[8/21] 002_007-007.mp4  40.6s  2026-10-11T12:00:00+03:00
-[9/21] 002_008-008.mp4  30.1s  2026-10-11T18:00:00+03:00
-[10/21] 002_009-009.mp4  33.5s  2026-10-12T10:00:00+03:00
-[11/21] 002_010-010.mp4  39.4s  2026-10-12T12:00:00+03:00
-[12/21] 002_011-012.mp4  43.0s  2026-10-12T18:00:00+03:00
-[13/21] 002_013-013.mp4  53.5s  2026-10-13T10:00:00+03:00
-[14/21] 002_014-014.mp4  50.5s  2026-10-13T12:00:00+03:00
-[15/21] 002_015-016.mp4  56.2s  2026-10-13T18:00:00+03:00
-[16/21] 002_017-017.mp4  50.8s  2026-10-14T10:00:00+03:00
-[17/21] 002_018-018.mp4  21.6s  2026-10-14T12:00:00+03:00
-[18/21] 002_019-019.mp4  70.8s  2026-10-14T18:00:00+03:00
-[19/21] 002_020-020.mp4  69.9s  2026-10-15T10:00:00+03:00
-[20/21] 002_021-021.mp4  32.7s  2026-10-15T12:00:00+03:00
-[21/21] 002_022-022.mp4  87.9s  2026-10-15T18:00:00+03:00
-Next position: {'next_surah': 2, 'next_ayah': 23, 'next_background': 21, 'clips_made': 21, 'khatmas_completed': 0}
+Using existing background library (40 videos)
+[1/21] 001_001-007.mp4  45.5s  2026-10-09T10:00:00+03:00
+[2/21] 002_001-002.mp4  46.1s  2026-10-09T12:00:00+03:00
+[3/21] 002_003-003.mp4  29.6s  2026-10-09T18:00:00+03:00
+[4/21] 002_004-004.mp4  35.2s  2026-10-10T10:00:00+03:00
+[5/21] 002_005-006.mp4  60.4s  2026-10-10T12:00:00+03:00
+[6/21] 002_007-007.mp4  40.6s  2026-10-10T18:00:00+03:00
+[7/21] 002_008-008.mp4  30.1s  2026-10-11T10:00:00+03:00
+[8/21] 002_009-009.mp4  33.5s  2026-10-11T12:00:00+03:00
+[9/21] 002_010-010.mp4  39.4s  2026-10-11T18:00:00+03:00
+[10/21] 002_011-012.mp4  43.0s  2026-10-12T10:00:00+03:00
+[11/21] 002_013-013.mp4  53.5s  2026-10-12T12:00:00+03:00
+[12/21] 002_014-014.mp4  50.5s  2026-10-12T18:00:00+03:00
+[13/21] 002_015-016.mp4  56.2s  2026-10-13T10:00:00+03:00
+[14/21] 002_017-017.mp4  50.8s  2026-10-13T12:00:00+03:00
+[15/21] 002_018-018.mp4  21.6s  2026-10-13T18:00:00+03:00
+[16/21] 002_019-019.mp4  70.8s  2026-10-14T10:00:00+03:00
+[17/21] 002_020-020.mp4  69.9s  2026-10-14T12:00:00+03:00
+[18/21] 002_021-021.mp4  32.7s  2026-10-14T18:00:00+03:00
+[19/21] 002_022-022.mp4  87.9s  2026-10-15T10:00:00+03:00
+[20/21] 002_023-023.mp4  63.1s  2026-10-15T12:00:00+03:00
+[21/21] 002_024-024.mp4  43.4s  2026-10-15T18:00:00+03:00
+Next position: {'next_surah': 2, 'next_ayah': 25, 'next_background': 21, 'clips_made': 21, 'khatmas_completed': 0}
