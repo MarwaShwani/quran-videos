@@ -1,0 +1,4 @@
+run: 37757099074  job status: failure  Thu Oct  8 09:30:55 UTC 2026
+Start position: {'next_surah': 1, 'next_ayah': 1, 'next_background': 0, 'clips_made': 0, 'khatmas_completed': 0}
+Building background library from Pixabay ...
+ERROR: PIXABAY_API_KEY secret is missing
