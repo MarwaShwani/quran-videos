@@ -425,7 +425,7 @@ def render(clip, bg_path, overlay_path, out_path, work):
          "-i", str(wav),
          "-loop", "1", "-i", str(overlay_path),
          "-filter_complex", vf, "-map", "[v]", "-map", "[a]", "-t", str(total),
-         "-c:v", "libx264", "-preset", "medium", "-crf", "21", "-r", "30",
+         "-c:v", "libx264", "-preset", "fast", "-crf", "21", "-r", "30",
          "-c:a", "aac", "-b:a", "192k", "-ar", "48000",
          "-movflags", "+faststart", str(out_path)])
     return total
@@ -444,15 +444,22 @@ def caption(clip):
                                 reciter=rc["name_ar"], style=style_ar, hashtags=tags)
 
 
-def slots(start_date, count):
+def slots(start_date, count, not_before=None):
+    """Publish times: the configured times of day, starting on start_date,
+    skipping any slot earlier than not_before."""
     sc = CONFIG["schedule"]
     tz = ZoneInfo(sc["timezone"])
     times = sc["times"][: sc["posts_per_day"]]
-    out = []
-    for i in range(count):
-        day = start_date + dt.timedelta(days=i // len(times))
-        hh, mm = map(int, times[i % len(times)].split(":"))
-        out.append(dt.datetime(day.year, day.month, day.day, hh, mm, tzinfo=tz).isoformat())
+    out, day = [], start_date
+    while len(out) < count:
+        for t in times:
+            hh, mm = map(int, t.split(":"))
+            when = dt.datetime(day.year, day.month, day.day, hh, mm, tzinfo=tz)
+            if not_before is None or when >= not_before:
+                out.append(when.isoformat())
+                if len(out) == count:
+                    break
+        day += dt.timedelta(days=1)
     return out
 
 
@@ -462,6 +469,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--count", type=int, default=21)
     ap.add_argument("--start-date", required=True, help="YYYY-MM-DD of the first post")
+    ap.add_argument("--not-before", default="",
+                    help="ISO date-time; skip publish slots earlier than this")
     ap.add_argument("--tag", required=True, help="GitHub release tag for this batch")
     ap.add_argument("--out", default="out")
     ap.add_argument("--library", default="library")
@@ -480,7 +489,8 @@ def main():
     library = load_library(lib)
     repo = os.environ.get("GITHUB_REPOSITORY", "OWNER/REPO")
     start = dt.date.fromisoformat(args.start_date)
-    times = slots(start, args.count)
+    not_before = dt.datetime.fromisoformat(args.not_before) if args.not_before else None
+    times = slots(start, args.count, not_before)
 
     entries = []
     for i in range(args.count):

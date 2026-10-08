@@ -4,10 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       count:
-        description: "How many clips to build (3 per day)"
-        default: "21"
+        description: "How many clips to build (5 per day)"
+        default: "35"
       start_date:
         description: "Date of the first post, YYYY-MM-DD (empty = tomorrow, Baghdad time)"
+        default: ""
+      not_before:
+        description: "Skip publish slots before this time, e.g. 2026-10-08T15:30:00+03:00"
         default: ""
   schedule:
     # Every Thursday 04:00 UTC = 07:00 Baghdad. Builds Friday..Thursday of next week.
@@ -50,7 +53,7 @@ jobs:
           START="${{ github.event.inputs.start_date }}"
           if [ -z "$START" ]; then START=$(TZ=Asia/Baghdad date -d tomorrow +%F); fi
           COUNT="${{ github.event.inputs.count }}"
-          if [ -z "$COUNT" ]; then COUNT=21; fi
+          if [ -z "$COUNT" ]; then COUNT=35; fi
           echo "start=$START" >> "$GITHUB_OUTPUT"
           echo "count=$COUNT" >> "$GITHUB_OUTPUT"
           echo "tag=batch-$START-r${{ github.run_number }}" >> "$GITHUB_OUTPUT"
@@ -65,7 +68,8 @@ jobs:
           python -u scripts/build.py \
             --count "${{ steps.batch.outputs.count }}" \
             --start-date "${{ steps.batch.outputs.start }}" \
-            --tag "${{ steps.batch.outputs.tag }}" 2>&1 | tee build.log
+            --tag "${{ steps.batch.outputs.tag }}" \
+            --not-before "${{ github.event.inputs.not_before }}" 2>&1 | tee build.log
 
       - name: Save background library (first run only)
         # Runs even if building the clips failed, so the downloaded backgrounds are kept.

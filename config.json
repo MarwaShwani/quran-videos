@@ -2,10 +2,16 @@
   "reciter": {
     "name_ar": "الشيخ محمد صديق المنشاوي",
     "recitations": {
-      "mujawwad": {"id": 8, "style_ar": "مجوّد"},
-      "murattal": {"id": 9, "style_ar": "مرتّل"}
+      "mujawwad": {
+        "id": 8,
+        "style_ar": "مجوّد"
+      },
+      "murattal": {
+        "id": 9,
+        "style_ar": "مرتّل"
+      }
     },
-    "default_style": "mujawwad"
+    "default_style": "murattal"
   },
   "clip": {
     "min_seconds": 30,
@@ -16,15 +22,27 @@
     "_note": "Al-Fatiha and any surah whose whole murattal recitation fits in max_seconds are posted as ONE video in murattal.",
     "style": "murattal",
     "max_seconds": 90,
-    "always": [1]
+    "always": [
+      1
+    ]
   },
   "schedule": {
     "timezone": "Asia/Baghdad",
-    "posts_per_day": 3,
-    "times": ["10:00", "12:00", "18:00"]
+    "posts_per_day": 5,
+    "times": [
+      "10:00",
+      "12:00",
+      "16:00",
+      "18:00",
+      "20:00"
+    ]
   },
   "caption": {
-    "hashtags": ["#العراق", "#صدقه_جاريه", "#القران_الكريم"],
+    "hashtags": [
+      "#العراق",
+      "#صدقه_جاريه",
+      "#القران_الكريم"
+    ],
     "surah_hashtag_prefix": "#سورة_",
     "template": "سورة {surah} | {range} 🤍\nبصوت {reciter} ({style})\n\nشاركها لعلها تكون صدقة جارية لك ولوالديك 🤲\n\n{hashtags}"
   },
@@ -47,12 +65,47 @@
       "autumn forest"
     ],
     "blocked_tags": [
-      "people", "person", "woman", "women", "man", "men", "girl", "boy",
-      "child", "children", "kid", "couple", "model", "human", "face",
-      "lady", "family", "crowd", "dance", "bikini", "fashion", "selfie",
-      "hand", "hands", "body", "wedding", "love", "romantic", "kiss",
-      "church", "cross", "christmas", "temple", "buddha", "statue",
-      "alcohol", "wine", "beer", "music", "concert", "party"
+      "people",
+      "person",
+      "woman",
+      "women",
+      "man",
+      "men",
+      "girl",
+      "boy",
+      "child",
+      "children",
+      "kid",
+      "couple",
+      "model",
+      "human",
+      "face",
+      "lady",
+      "family",
+      "crowd",
+      "dance",
+      "bikini",
+      "fashion",
+      "selfie",
+      "hand",
+      "hands",
+      "body",
+      "wedding",
+      "love",
+      "romantic",
+      "kiss",
+      "church",
+      "cross",
+      "christmas",
+      "temple",
+      "buddha",
+      "statue",
+      "alcohol",
+      "wine",
+      "beer",
+      "music",
+      "concert",
+      "party"
     ],
     "min_duration": 10
   },
