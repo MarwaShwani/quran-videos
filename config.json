@@ -1,0 +1,55 @@
+{
+  "reciter": {
+    "name_ar": "الشيخ محمد صديق المنشاوي",
+    "style_ar": "مجوّد",
+    "quran_com_reciter_match": "minshawi",
+    "quran_com_style_match": "mujawwad",
+    "recitation_id": null
+  },
+  "clip": {
+    "min_seconds": 30,
+    "max_seconds": 60,
+    "prepend_basmala": true
+  },
+  "schedule": {
+    "timezone": "Asia/Baghdad",
+    "posts_per_day": 3,
+    "times": ["10:00", "12:00", "18:00"]
+  },
+  "caption": {
+    "hashtags": ["#العراق", "#صدقه_جاريه", "#القران_الكريم"],
+    "surah_hashtag_prefix": "#سورة_",
+    "template": "سورة {surah} | {range} 🤍\nبصوت {reciter} ({style})\n\nشاركها لعلها تكون صدقة جارية لك ولوالديك 🤲\n\n{hashtags}"
+  },
+  "backgrounds": {
+    "library_size": 40,
+    "queries": [
+      "waterfall",
+      "mountains clouds",
+      "ocean waves",
+      "forest fog",
+      "sunset sky",
+      "river stream",
+      "desert dunes",
+      "snowy mountains",
+      "lake reflection",
+      "clouds timelapse",
+      "rain leaves",
+      "night sky stars",
+      "green hills",
+      "autumn forest"
+    ],
+    "blocked_tags": [
+      "people", "person", "woman", "women", "man", "men", "girl", "boy",
+      "child", "children", "kid", "couple", "model", "human", "face",
+      "lady", "family", "crowd", "dance", "bikini", "fashion", "selfie",
+      "hand", "hands", "body", "wedding", "love", "romantic", "kiss",
+      "church", "cross", "christmas", "temple", "buddha", "statue",
+      "alcohol", "wine", "beer", "music", "concert", "party"
+    ],
+    "min_duration": 10
+  },
+  "overlay": {
+    "handle": "@sadaqajaree"
+  }
+}
