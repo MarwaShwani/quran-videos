@@ -1,4 +1,50 @@
-run: 37757099074  job status: failure  Thu Oct  8 09:30:55 UTC 2026
+run: 37757678085  job status: failure  Thu Oct  8 10:00:13 UTC 2026
 Start position: {'next_surah': 1, 'next_ayah': 1, 'next_background': 0, 'clips_made': 0, 'khatmas_completed': 0}
 Building background library from Pixabay ...
-ERROR: PIXABAY_API_KEY secret is missing
+  background 1: waterfall -> https://pixabay.com/videos/id-228847/
+  background 2: waterfall -> https://pixabay.com/videos/id-358693/
+  background 3: waterfall -> https://pixabay.com/videos/id-246856/
+  background 4: mountains clouds -> https://pixabay.com/videos/id-285663/
+  background 5: mountains clouds -> https://pixabay.com/videos/id-169951/
+  background 6: mountains clouds -> https://pixabay.com/videos/id-305657/
+  background 7: ocean waves -> https://pixabay.com/videos/id-283533/
+  background 8: ocean waves -> https://pixabay.com/videos/id-4006/
+  background 9: ocean waves -> https://pixabay.com/videos/id-19368/
+  background 10: forest fog -> https://pixabay.com/videos/id-164360/
+  background 11: forest fog -> https://pixabay.com/videos/id-59291/
+  background 12: forest fog -> https://pixabay.com/videos/id-189813/
+  background 13: sunset sky -> https://pixabay.com/videos/id-201308/
+  background 14: sunset sky -> https://pixabay.com/videos/id-206272/
+  background 15: sunset sky -> https://pixabay.com/videos/id-1844/
+  background 16: river stream -> https://pixabay.com/videos/id-174860/
+  background 17: river stream -> https://pixabay.com/videos/id-240320/
+  background 18: river stream -> https://pixabay.com/videos/id-169249/
+  background 19: desert dunes -> https://pixabay.com/videos/id-284568/
+  background 20: desert dunes -> https://pixabay.com/videos/id-284566/
+  background 21: desert dunes -> https://pixabay.com/videos/id-26085/
+  background 22: snowy mountains -> https://pixabay.com/videos/id-25477/
+  background 23: snowy mountains -> https://pixabay.com/videos/id-348057/
+  background 24: snowy mountains -> https://pixabay.com/videos/id-200449/
+  background 25: lake reflection -> https://pixabay.com/videos/id-186405/
+  background 26: lake reflection -> https://pixabay.com/videos/id-188595/
+  background 27: lake reflection -> https://pixabay.com/videos/id-292827/
+  background 28: clouds timelapse -> https://pixabay.com/videos/id-190332/
+  background 29: clouds timelapse -> https://pixabay.com/videos/id-28975/
+  background 30: clouds timelapse -> https://pixabay.com/videos/id-95188/
+  background 31: rain leaves -> https://pixabay.com/videos/id-172759/
+  background 32: rain leaves -> https://pixabay.com/videos/id-28385/
+  background 33: rain leaves -> https://pixabay.com/videos/id-85526/
+  background 34: night sky stars -> https://pixabay.com/videos/id-10339/
+  background 35: night sky stars -> https://pixabay.com/videos/id-144597/
+  background 36: night sky stars -> https://pixabay.com/videos/id-134252/
+  background 37: green hills -> https://pixabay.com/videos/id-137211/
+  background 38: green hills -> https://pixabay.com/videos/id-25739/
+  background 39: green hills -> https://pixabay.com/videos/id-245580/
+  background 40: autumn forest -> https://pixabay.com/videos/id-311442/
+COMMAND FAILED: ffmpeg -y -v error -f concat -safe 0 -i work/concat.txt -ar 48000 -ac 2 work/audio.wav
+[concat @ 0x55d96e7f2ec0] Impossible to open 'work/work/audio/001001.mp3'
+[in#0 @ 0x55d96e7f2dc0] Error opening input: No such file or directory
+Error opening input file work/concat.txt.
+Error opening input files: No such file or directory
+
+ERROR: 1
