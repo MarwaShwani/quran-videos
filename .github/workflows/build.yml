@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
     inputs:
       count:
-        description: "How many clips to build (5 per day)"
-        default: "35"
+        description: "How many clips to build (1 per day)"
+        default: "7"
       start_date:
         description: "Date of the first post, YYYY-MM-DD (empty = tomorrow, Baghdad time)"
         default: ""
@@ -53,7 +53,7 @@ jobs:
           START="${{ github.event.inputs.start_date }}"
           if [ -z "$START" ]; then START=$(TZ=Asia/Baghdad date -d tomorrow +%F); fi
           COUNT="${{ github.event.inputs.count }}"
-          if [ -z "$COUNT" ]; then COUNT=35; fi
+          if [ -z "$COUNT" ]; then COUNT=7; fi
           echo "start=$START" >> "$GITHUB_OUTPUT"
           echo "count=$COUNT" >> "$GITHUB_OUTPUT"
           echo "tag=batch-$START-r${{ github.run_number }}" >> "$GITHUB_OUTPUT"
@@ -92,6 +92,7 @@ jobs:
           mkdir -p manifests
           cp out/manifest.json "manifests/$TAG.json"
           cp out/manifest.json manifests/latest.json
+          python scripts/update_queue.py out/manifest.json
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add state.json manifests
