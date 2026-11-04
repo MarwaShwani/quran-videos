@@ -4,17 +4,18 @@ on:
   workflow_dispatch:
     inputs:
       count:
-        description: "How many clips to build (1 per day)"
-        default: "7"
+        description: "How many clips to build (2 per day)"
+        default: "14"
       start_date:
         description: "Date of the first post, YYYY-MM-DD (empty = tomorrow, Baghdad time)"
         default: ""
       not_before:
         description: "Skip publish slots before this time, e.g. 2026-10-08T15:30:00+03:00"
         default: ""
-  schedule:
-    # Every Thursday 04:00 UTC = 07:00 Baghdad. Builds Friday..Thursday of next week.
-    - cron: "0 4 * * 4"
+  # Weekly schedule paused while the new design (ayah text on screen) is being approved.
+  # The queue already holds enough old-design clips for ~1 week at 2 posts/day.
+  # schedule:
+  #   - cron: "0 4 * * 4"
 
 permissions:
   contents: write
@@ -53,7 +54,7 @@ jobs:
           START="${{ github.event.inputs.start_date }}"
           if [ -z "$START" ]; then START=$(TZ=Asia/Baghdad date -d tomorrow +%F); fi
           COUNT="${{ github.event.inputs.count }}"
-          if [ -z "$COUNT" ]; then COUNT=7; fi
+          if [ -z "$COUNT" ]; then COUNT=14; fi
           echo "start=$START" >> "$GITHUB_OUTPUT"
           echo "count=$COUNT" >> "$GITHUB_OUTPUT"
           echo "tag=batch-$START-r${{ github.run_number }}" >> "$GITHUB_OUTPUT"

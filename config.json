@@ -28,11 +28,12 @@
   },
   "schedule": {
     "timezone": "Asia/Baghdad",
-    "posts_per_day": 1,
+    "posts_per_day": 2,
     "times": [
+      "10:00",
       "20:00"
     ],
-    "_note": "20:00 Baghdad = general TikTok evening peak for users in Iraq (not only followers)."
+    "_note": "10:00 and 20:00 Baghdad = the two daily TikTok peaks for Iraq (Metricool best-time data + general evening peak)."
   },
   "caption": {
     "hashtags": [
