@@ -1,0 +1,21 @@
+name: Discover background videos
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -q pillow requests
+      - env:
+          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY || secrets.PEXELS_API_KEY }}
+        run: python -u tools/discover_videos.py
+      - run: |
+          gh release delete discovery -y --cleanup-tag -R "$GITHUB_REPOSITORY" || true
+          gh release create discovery -R "$GITHUB_REPOSITORY" --prerelease --title "Design discovery (temporary)" --notes "temp" disc/*
