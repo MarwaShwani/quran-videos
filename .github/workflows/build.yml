@@ -38,6 +38,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install tools
+        timeout-minutes: 10
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq ffmpeg libfribidi0 libharfbuzz0b
