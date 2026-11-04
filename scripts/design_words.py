@@ -266,7 +266,7 @@ def render(clip, painting, lib_dir, items, wav, a_dur, out_path, handle, label, 
     for y in range(bh):
         yy = y / bh
         band = math.exp(-((yy - 0.47) / 0.20) ** 2)       # around the word stack
-        dd.line([(0, y), (base.width, y)], fill=int(255 * (0.16 + 0.22 * band)))
+        dd.line([(0, y), (base.width, y)], fill=int(255 * (0.06 + 0.20 * band)))
     base = Image.composite(Image.new("RGB", base.size, (0, 0, 0)), base, dark)
 
     sprites = [word_sprite(it["text"], it["kind"]) for it in items]
@@ -284,7 +284,7 @@ def render(clip, painting, lib_dir, items, wav, a_dur, out_path, handle, label, 
            f"[1:a]adelay=500|500,loudnorm=I=-14:TP=-1.5:LRA=11,apad=whole_dur={total},"
            f"afade=t=in:st=0:d=0.4,afade=t=out:st={max(total - 0.8, 0)}:d=0.8[a]",
            "-map", "[v]", "-map", "[a]", "-t", str(total),
-           "-c:v", "libx264", "-preset", "medium", "-crf", "20", "-r", str(FPS),
+           "-c:v", "libx264", "-preset", "medium", "-crf", "22", "-r", str(FPS),
            "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-movflags", "+faststart",
            str(out_path)]
     proc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
