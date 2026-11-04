@@ -213,20 +213,22 @@ def plan_clip(state, chapters, audios):
         if total is not None:
             parts = ([sa.path(1, 1)] if basmala else []) + \
                     [sa.path(s, x) for x in range(1, n + 1)]
+            keys = ([(1, 1, True)] if basmala else []) + [(s, x, False) for x in range(1, n + 1)]
             clip = {"surah_number": s, "surah_name": ch["name_arabic"], "from_ayah": 1,
                     "to_ayah": n, "whole_surah": True, "with_basmala": basmala,
                     "style": short_style, "audio_seconds": round(total, 2),
-                    "parts": [str(p) for p in parts]}
+                    "parts": [str(p) for p in parts], "keys": keys}
             return clip, advance(state, s, n, n)
 
     style = CONFIG["reciter"]["default_style"]
     audio = audios[style]
     cmin = CONFIG["clip"]["min_seconds"]
     cmax = CONFIG["clip"]["max_seconds"]
-    parts, total = [], 0.0
+    parts, total, keys = [], 0.0, []
     with_basmala = a == 1 and basmala
     if with_basmala:
         parts.append(audio.path(1, 1))
+        keys.append((1, 1, True))
         total += audio.dur(1, 1)
     first, last = a, a - 1
     while a <= n:
@@ -234,6 +236,7 @@ def plan_clip(state, chapters, audios):
         if last >= first and (total >= cmin or total + d > cmax):
             break
         parts.append(audio.path(s, a))
+        keys.append((s, a, False))
         total += d
         last = a
         a += 1
@@ -244,12 +247,14 @@ def plan_clip(state, chapters, audios):
         if rest < 15 and total + rest <= cmax + 15:
             for x in remaining:
                 parts.append(audio.path(s, x))
+                keys.append((s, x, False))
             total += rest
             last = n
     clip = {"surah_number": s, "surah_name": ch["name_arabic"], "from_ayah": first,
             "to_ayah": last, "whole_surah": first == 1 and last == n,
             "with_basmala": bool(with_basmala), "style": style,
-            "audio_seconds": round(total, 2), "parts": [str(p) for p in parts]}
+            "audio_seconds": round(total, 2), "parts": [str(p) for p in parts],
+            "keys": keys}
     return clip, advance(state, s, last, n)
 
 
@@ -402,6 +407,16 @@ def ayah_range_text(clip, for_caption=False):
     return f"الآيات {str(a).translate(AR_DIGITS)} - {str(b).translate(AR_DIGITS)}"
 
 
+def concat_audio(clip, work):
+    lst = work / "concat.txt"
+    lst.write_text("".join(f"file '{pathlib.Path(p).resolve()}'\n" for p in clip["parts"]),
+                   encoding="utf-8")
+    wav = work / "audio.wav"
+    run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", str(lst),
+         "-ar", "48000", "-ac", "2", str(wav)])
+    return wav, duration(wav)
+
+
 def render(clip, bg_path, overlay_path, out_path, work):
     lst = work / "concat.txt"
     # ffmpeg resolves relative paths against the list file, so always write absolute ones.
@@ -475,6 +490,11 @@ def main():
     ap.add_argument("--out", default="out")
     ap.add_argument("--library", default="library")
     ap.add_argument("--work", default="work")
+    ap.add_argument("--preview", action="store_true",
+                    help="build the clip(s) without saving the reading position")
+    ap.add_argument("--design", default="", help="override config design")
+    ap.add_argument("--painting", type=int, default=-1,
+                    help="force this painting index (preview)")
     args = ap.parse_args()
 
     out, work, lib = (pathlib.Path(p).resolve() for p in (args.out, args.work, args.library))
@@ -482,11 +502,18 @@ def main():
     work.mkdir(parents=True, exist_ok=True)
     state = json.loads(STATE_PATH.read_text(encoding="utf-8"))
     log("Start position:", state)
+    design = args.design or CONFIG.get("design", "nature_video")
+    log("Design:", design)
 
     rec_ids = recitations()
     chapters = load_chapters()
     audios = {style: Audio(rid, work / "audio" / str(rid)) for style, rid in rec_ids.items()}
-    library = load_library(lib)
+    if design == "painting_words":
+        import design_words as dw
+        library = dw.load_paintings(lib, session, log)
+        dw.contact_sheet(library, lib, out / "paintings_sheet.jpg") if args.preview else None
+    else:
+        library = load_library(lib)
     repo = os.environ.get("GITHUB_REPOSITORY", "OWNER/REPO")
     start = dt.date.fromisoformat(args.start_date)
     not_before = dt.datetime.fromisoformat(args.not_before) if args.not_before else None
@@ -495,13 +522,29 @@ def main():
     entries = []
     for i in range(args.count):
         clip, state = plan_clip(state, chapters, audios)
-        bg = library[state["next_background"] % len(library)]
-        state["next_background"] = state["next_background"] + 1
         name = (f"{clip['surah_number']:03d}_{clip['from_ayah']:03d}-"
                 f"{clip['to_ayah']:03d}.mp4")
-        ov = work / "overlay.png"
-        make_overlay(clip, ov)
-        secs = render(clip, lib / bg["file"], ov, out / name, work)
+        if design == "painting_words":
+            pi = args.painting if args.painting >= 0 and i == 0 else state.get("next_painting", 0)
+            bg = library[pi % len(library)]
+            if not (args.painting >= 0 and i == 0):
+                state["next_painting"] = state.get("next_painting", 0) + 1
+            wav, a_dur = concat_audio(clip, work)
+            rid = rec_ids[clip["style"]]
+            durs = [audios[clip["style"]].dur(s, a) for s, a, _ in clip["keys"]]
+            items = dw.build_items(clip, clip["keys"], durs, get_json, rid)
+            secs = dw.render(clip, bg, lib, items, wav, a_dur, out / name,
+                             CONFIG.get("overlay", {}).get("handle"),
+                             f"سورة {clip['surah_name']}", log)
+            credit = {"source": "Wikimedia Commons (public domain)", "page": bg.get("page"),
+                      "title": bg.get("title")}
+        else:
+            bg = library[state["next_background"] % len(library)]
+            state["next_background"] = state["next_background"] + 1
+            ov = work / "overlay.png"
+            make_overlay(clip, ov)
+            secs = render(clip, lib / bg["file"], ov, out / name, work)
+            credit = {"source": "Pixabay", "page": bg.get("page"), "user": bg.get("user")}
         state["clips_made"] = state.get("clips_made", 0) + 1
         entry = {
             "index": i,
@@ -514,20 +557,23 @@ def main():
             "with_basmala": clip["with_basmala"],
             "whole_surah": clip["whole_surah"],
             "style": clip["style"],
+            "design": design,
             "seconds": secs,
             "publish_at": times[i],
             "caption": caption(clip),
-            "background": {"source": "Pixabay", "page": bg.get("page"),
-                           "user": bg.get("user")},
+            "background": credit,
         }
         entries.append(entry)
         log(f"[{i + 1}/{args.count}] {name}  {secs:.1f}s  {entry['publish_at']}")
 
     manifest = {"tag": args.tag, "created": dt.datetime.now(dt.timezone.utc).isoformat(),
                 "recitation_ids": rec_ids, "start_date": args.start_date,
-                "posts": entries}
+                "design": design, "posts": entries}
     (out / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2),
                                        encoding="utf-8")
+    if args.preview:
+        log("Preview only - reading position NOT saved. Would be:", state)
+        return
     STATE_PATH.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n",
                           encoding="utf-8")
     log("Next position:", state)

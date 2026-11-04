@@ -1,0 +1,446 @@
+{
+ "_note": "Public-domain landscape paintings from Wikimedia Commons. x = horizontal centre (0..1) of the 9:16 crop.",
+ "paintings": [
+  {
+   "title": "File:Indian Sunset Deer by a Lake by Albert Bierstadt.jpeg",
+   "x": 0.4,
+   "w": 5626,
+   "h": 3803,
+   "cand": 32
+  },
+  {
+   "title": "File:Albert Bierstadt - Among the Sierra Nevada, California - Google Art Project.jpg",
+   "x": 0.5,
+   "w": 3993,
+   "h": 2387,
+   "cand": 1
+  },
+  {
+   "title": "File:Albert Bierstadt - In the Sierras - 1940.299 - Fogg Museum.jpg",
+   "x": 0.5,
+   "w": 2400,
+   "h": 1943,
+   "cand": 4
+  },
+  {
+   "title": "File:Albert Bierstadt - Landscape.jpg",
+   "x": 0.5,
+   "w": 1500,
+   "h": 1097,
+   "cand": 5
+  },
+  {
+   "title": "File:Albert Bierstadt - Landscape (c. 1850s).jpg",
+   "x": 0.5,
+   "w": 1492,
+   "h": 1007,
+   "cand": 8
+  },
+  {
+   "title": "File:Albert Bierstadt - Landscape (c. 1867-1869).jpg",
+   "x": 0.5,
+   "w": 2772,
+   "h": 1952,
+   "cand": 9
+  },
+  {
+   "title": "File:Albert Bierstadt - Landscape - 74.297 - Indianapolis Museum of Art.jpg",
+   "x": 0.5,
+   "w": 5399,
+   "h": 3809,
+   "cand": 10
+  },
+  {
+   "title": "File:Albert Bierstadt - Mountain landscape (01).jpg",
+   "x": 0.5,
+   "w": 4000,
+   "h": 2977,
+   "cand": 14
+  },
+  {
+   "title": "File:Albert Bierstadt - Rocky Mountain Landscape - Google Art Project.jpg",
+   "x": 0.5,
+   "w": 6079,
+   "h": 4092,
+   "cand": 15
+  },
+  {
+   "title": "File:Untitled oil on paper painting by Albert Bierstadt, c 1889, Anchorage Museum.jpg",
+   "x": 0.5,
+   "w": 1900,
+   "h": 1298,
+   "cand": 21
+  },
+  {
+   "title": "File:ALBERT BIERSTADT SUNSET.jpg",
+   "x": 0.5,
+   "w": 2000,
+   "h": 2000,
+   "cand": 22
+  },
+  {
+   "title": "File:Albert Bierstadt - Sunset on the Coast (1866).jpg",
+   "x": 0.5,
+   "w": 1478,
+   "h": 1081,
+   "cand": 24
+  },
+  {
+   "title": "File:Albert Bierstadt - Sunset on the Plains (c. 1887).jpg",
+   "x": 0.5,
+   "w": 1800,
+   "h": 1319,
+   "cand": 26
+  },
+  {
+   "title": "File:Albert Bierstadt - View of Glacier Park or Sunset on Peak.jpg",
+   "x": 0.5,
+   "w": 5978,
+   "h": 4307,
+   "cand": 27
+  },
+  {
+   "title": "File:Bierstadt Albert Sunset in the Rockies.jpg",
+   "x": 0.5,
+   "w": 1440,
+   "h": 1018,
+   "cand": 30
+  },
+  {
+   "title": "File:Bierstadt Albert Sunset in the Yosemite Valley.jpg",
+   "x": 0.5,
+   "w": 3000,
+   "h": 2065,
+   "cand": 31
+  },
+  {
+   "title": "File:Albert Bierstadt - Island Lake, Wind River Range, Wyoming.jpg",
+   "x": 0.5,
+   "w": 4000,
+   "h": 2651,
+   "cand": 33
+  },
+  {
+   "title": "File:Albert Bierstadt - Lake Scene.jpg",
+   "x": 0.5,
+   "w": 3000,
+   "h": 1982,
+   "cand": 36
+  },
+  {
+   "title": "File:Albert Bierstadt - Lake Tahoe, California.jpg",
+   "x": 0.5,
+   "w": 2365,
+   "h": 1728,
+   "cand": 37
+  },
+  {
+   "title": "File:Albert Bierstadt - Lake in the Sierra Nevada (1867).jpg",
+   "x": 0.5,
+   "w": 2000,
+   "h": 1472,
+   "cand": 40
+  },
+  {
+   "title": "File:Albert Bierstadt - Outlet at Lake Tahoe.jpg",
+   "x": 0.5,
+   "w": 4664,
+   "h": 3200,
+   "cand": 42
+  },
+  {
+   "title": "File:Albert Bierstadt - ‚Lake Tahoe‘.jpg",
+   "x": 0.5,
+   "w": 4000,
+   "h": 2852,
+   "cand": 46
+  },
+  {
+   "title": "File:Albert bierstadt lake lucerne044258).jpg",
+   "x": 0.5,
+   "w": 3200,
+   "h": 2131,
+   "cand": 47
+  },
+  {
+   "title": "File:Bierstadt Albert Canadian Rockies Lake Louise.jpg",
+   "x": 0.5,
+   "w": 3684,
+   "h": 2524,
+   "cand": 48
+  },
+  {
+   "title": "File:Landscape with Lake by Albert Bierstadt, 1870.jpg",
+   "x": 0.5,
+   "w": 3200,
+   "h": 2355,
+   "cand": 49
+  },
+  {
+   "title": "File:Twilight in the Wilderness by Frederic Edwin Church (3).jpg",
+   "x": 0.5,
+   "w": 5000,
+   "h": 3115,
+   "cand": 82
+  },
+  {
+   "title": "File:View of Cotopaxi by Frederic Edwin Church 1857.jpg",
+   "x": 0.5,
+   "w": 3000,
+   "h": 1988,
+   "cand": 83
+  },
+  {
+   "title": "File:Forest in Mordvinovo by Ivan Shishkin (1891).jpg",
+   "x": 0.5,
+   "w": 2000,
+   "h": 1566,
+   "cand": 85
+  },
+  {
+   "title": "File:Ivan Ivanovich Shishkin - Forest distant views, 1884.jpg",
+   "x": 0.5,
+   "w": 2000,
+   "h": 1407,
+   "cand": 88
+  },
+  {
+   "title": "File:Teutoburg Forest (Shishkin).jpg",
+   "x": 0.5,
+   "w": 1711,
+   "h": 1200,
+   "cand": 94
+  },
+  {
+   "title": "File:1880er Ivan Shishkin Wald anagoria.JPG",
+   "x": 0.5,
+   "w": 3784,
+   "h": 2875,
+   "cand": 95
+  },
+  {
+   "title": "File:Ivan Ivanovich Shishkin, Woodland.jpg",
+   "x": 0.5,
+   "w": 1788,
+   "h": 2432,
+   "cand": 98
+  },
+  {
+   "title": "File:Ivan Shishkin - Winter.JPG",
+   "x": 0.5,
+   "w": 1725,
+   "h": 1056,
+   "cand": 104
+  },
+  {
+   "title": "File:Ivan Shishkin - Рожь - Google Art Project.jpg",
+   "x": 0.5,
+   "w": 4000,
+   "h": 2254,
+   "cand": 105
+  },
+  {
+   "title": "File:Arkhip Kuindzhi (1841–1910) , \"Autumn in Crimea\".png",
+   "x": 0.5,
+   "w": 1501,
+   "h": 884,
+   "cand": 110
+  },
+  {
+   "title": "File:WLA metmuseum Red Sunset on the Dnieper Arkhip Ivanovich Kuindzhi.jpg",
+   "x": 0.5,
+   "w": 3811,
+   "h": 2764,
+   "cand": 115
+  },
+  {
+   "title": "File:Isaac Levitan-Paysage de Crimée-Musée Levitan.jpg",
+   "x": 0.5,
+   "w": 3449,
+   "h": 2581,
+   "cand": 117
+  },
+  {
+   "title": "File:Thomas Moran - The Golden Hour - Google Art Project.jpg",
+   "x": 0.5,
+   "w": 3001,
+   "h": 2056,
+   "cand": 134
+  },
+  {
+   "title": "File:Thomas Moran - The Three Tetons.jpg",
+   "x": 0.5,
+   "w": 3000,
+   "h": 1996,
+   "cand": 135
+  },
+  {
+   "title": "File:Thomas moran grand canyon colorado river082843).jpg",
+   "x": 0.5,
+   "w": 2549,
+   "h": 3200,
+   "cand": 137
+  },
+  {
+   "title": "File:1859, Durand, Asher Brown, Landscape.jpg",
+   "x": 0.5,
+   "w": 1592,
+   "h": 2000,
+   "cand": 139
+  },
+  {
+   "title": "File:Asher Brown Durand - Forest Stream with Vista - 1960.162 - Cleveland Museum of Art.tiff",
+   "x": 0.5,
+   "w": 3653,
+   "h": 4290,
+   "cand": 141
+  },
+  {
+   "title": "File:Asher Brown Durand - Landscape - y1955-3249 - Princeton University Art Museum.jpg",
+   "x": 0.5,
+   "w": 4499,
+   "h": 5679,
+   "cand": 145
+  },
+  {
+   "title": "File:Forenoon by Asher Brown Durand, 1847.jpg",
+   "x": 0.5,
+   "w": 1636,
+   "h": 2048,
+   "cand": 149
+  },
+  {
+   "title": "File:HRSOA AsherDurand-Landscape.JPG",
+   "x": 0.5,
+   "w": 2064,
+   "h": 1277,
+   "cand": 150
+  },
+  {
+   "title": "File:'Autumn Landscape' by Jasper F. Cropsey, Dayton Art Institute.JPG",
+   "x": 0.5,
+   "w": 1695,
+   "h": 2156,
+   "cand": 155
+  },
+  {
+   "title": "File:An Indian Summer Morning in the White Mountains, by Jasper Francis Cropsey, 1857, oil on canvas - Currier Museum of Art - Manchester, NH - DSC07534.jpg",
+   "x": 0.5,
+   "w": 5046,
+   "h": 3195,
+   "cand": 157
+  },
+  {
+   "title": "File:Autumn--On the Hudson River-1860-Jasper Francis Cropsey.jpg",
+   "x": 0.5,
+   "w": 4000,
+   "h": 2201,
+   "cand": 158
+  },
+  {
+   "title": "File:Greenwood Lake Autumn on the Hudson-Jasper Francis Cropsey-1875.jpg",
+   "x": 0.5,
+   "w": 3000,
+   "h": 1789,
+   "cand": 160
+  },
+  {
+   "title": "File:Mounts Adam and Eve 1872 Jasper Francis Cropsey.jpeg",
+   "x": 0.5,
+   "w": 1800,
+   "h": 1081,
+   "cand": 168
+  },
+  {
+   "title": "File:The Mellow Autumn Time, by Jasper Francis Cropsey.jpg",
+   "x": 0.5,
+   "w": 1600,
+   "h": 937,
+   "cand": 169
+  },
+  {
+   "title": "File:Gifford Sanford Robinson In the Wilderness Twilight.jpg",
+   "x": 0.5,
+   "w": 2000,
+   "h": 1071,
+   "cand": 172
+  },
+  {
+   "title": "File:Sanford Robinson Gifford - Wilderness - Google Art Project.jpg",
+   "x": 0.5,
+   "w": 8273,
+   "h": 4524,
+   "cand": 174
+  },
+  {
+   "title": "File:Ayvazovskiy - A storm begins to whip up in the Black Sea (heliography).jpg",
+   "x": 0.5,
+   "w": 2752,
+   "h": 2020,
+   "cand": 182
+  },
+  {
+   "title": "File:Ivan Konstantinovich Aivazovsky - Stormy Sea.jpg",
+   "x": 0.5,
+   "w": 2000,
+   "h": 1266,
+   "cand": 191
+  },
+  {
+   "title": "File:Thomas Hill - Yosemite Valley (1876).jpg",
+   "x": 0.5,
+   "w": 2000,
+   "h": 1199,
+   "cand": 205
+  },
+  {
+   "title": "File:Thomas hill yosemite 092610).jpg",
+   "x": 0.5,
+   "w": 3200,
+   "h": 1903,
+   "cand": 208
+  },
+  {
+   "title": "File:California Ranch by William Keith, 1908.jpg",
+   "x": 0.5,
+   "w": 2627,
+   "h": 1479,
+   "cand": 209
+  },
+  {
+   "title": "File:Stream Through the Valley by William Keith, 1901.jpg",
+   "x": 0.5,
+   "w": 1997,
+   "h": 1452,
+   "cand": 215
+  },
+  {
+   "title": "File:Sunset Glow on Mt Tamalpais by William Keith, 1896.jpg",
+   "x": 0.5,
+   "w": 1910,
+   "h": 939,
+   "cand": 216
+  },
+  {
+   "title": "File:William Keith - Landscape with Mount Shasta.jpg",
+   "x": 0.5,
+   "w": 2000,
+   "h": 1564,
+   "cand": 221
+  },
+  {
+   "title": "File:George Inness - Landscape (1868).jpg",
+   "x": 0.5,
+   "w": 4096,
+   "h": 2857,
+   "cand": 233
+  },
+  {
+   "title": "File:George Inness - Landscape with Yellow Bush (1885).jpg",
+   "x": 0.5,
+   "w": 4096,
+   "h": 2668,
+   "cand": 243
+  }
+ ]
+}

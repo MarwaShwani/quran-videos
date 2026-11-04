@@ -1,0 +1,50 @@
+name: Preview new design
+on:
+  workflow_dispatch:
+    inputs:
+      painting:
+        description: "Painting index to use"
+        default: "0"
+permissions:
+  contents: write
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg libraqm0 libfribidi0 libharfbuzz0b
+          pip install -q pillow requests arabic-reshaper python-bidi
+          python -c "from PIL import features; print('raqm', features.check('raqm'))"
+      - name: Get painting library
+        run: |
+          mkdir -p paintings
+          gh release download paintings -D paintings -R "$GITHUB_REPOSITORY" || echo "No paintings yet"
+      - name: Build preview
+        run: |
+          set -o pipefail
+          python -u scripts/build.py --preview --design painting_words --count 1 \
+            --painting "${{ github.event.inputs.painting }}" \
+            --start-date "$(TZ=Asia/Baghdad date -d tomorrow +%F)" --tag preview \
+            --library paintings --out out 2>&1 | tee build.log
+      - name: Save painting library
+        if: always()
+        run: |
+          if [ -f paintings/.new ]; then
+            gh release delete paintings -y --cleanup-tag -R "$GITHUB_REPOSITORY" || true
+            gh release create paintings -R "$GITHUB_REPOSITORY" --title "Painting library" \
+              --notes "Public-domain landscape paintings from Wikimedia Commons. See paintings_lib.json for titles and links." \
+              paintings/*.jpg paintings/paintings_lib.json
+          fi
+      - name: Publish preview
+        run: |
+          gh release delete preview -y --cleanup-tag -R "$GITHUB_REPOSITORY" || true
+          gh release create preview -R "$GITHUB_REPOSITORY" --prerelease --title "Design preview" \
+            --notes "Preview of the new design (not scheduled)." out/*.mp4 out/*.jpg out/manifest.json build.log
