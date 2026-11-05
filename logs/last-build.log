@@ -1,11 +1,32 @@
-run: 40857836681  job status: success  Thu Oct 29 10:34:54 UTC 2026
-Start position: {'next_surah': 2, 'next_ayah': 94, 'next_background': 53, 'clips_made': 53, 'khatmas_completed': 0}
-Using existing background library (40 videos)
-[1/7] 002_094-095.mp4  35.2s  2026-10-30T20:00:00+03:00
-[2/7] 002_096-096.mp4  31.9s  2026-10-31T20:00:00+03:00
-[3/7] 002_097-098.mp4  37.0s  2026-11-01T20:00:00+03:00
-[4/7] 002_099-100.mp4  32.7s  2026-11-02T20:00:00+03:00
-[5/7] 002_101-101.mp4  33.7s  2026-11-03T20:00:00+03:00
-[6/7] 002_102-102.mp4  89.3s  2026-11-04T20:00:00+03:00
-[7/7] 002_103-104.mp4  33.5s  2026-11-05T20:00:00+03:00
-Next position: {'next_surah': 2, 'next_ayah': 105, 'next_background': 60, 'clips_made': 60, 'khatmas_completed': 0}
+run: 41938949379  job status: success  Thu Nov  5 00:30:49 UTC 2026
+Start position: {'next_surah': 2, 'next_ayah': 105, 'next_background': 60, 'clips_made': 60, 'khatmas_completed': 0, 'next_painting': 0, 'khatma_clips': 60, 'next_featured': 0}
+Design: painting_words
+  rendered 830 frames in 60s
+[1/14] khatma 002_105-105.mp4  27.6s  2026-11-06T10:00:00+03:00
+  rendered 628 frames in 46s
+[2/14] khatma 002_106-106.mp4  20.9s  2026-11-06T20:00:00+03:00
+  rendered 1152 frames in 82s
+[3/14] khatma 002_107-108.mp4  38.4s  2026-11-07T10:00:00+03:00
+  rendered 1063 frames in 75s
+[4/14] khatma 002_109-109.mp4  35.4s  2026-11-07T20:00:00+03:00
+  rendered 666 frames in 52s
+[5/14] khatma 002_110-110.mp4  22.2s  2026-11-08T10:00:00+03:00
+  rendered 627 frames in 47s
+[6/14] khatma 002_111-111.mp4  20.9s  2026-11-08T20:00:00+03:00
+  rendered 680 frames in 50s
+[7/14] khatma 002_112-112.mp4  22.6s  2026-11-09T10:00:00+03:00
+  rendered 2043 frames in 144s
+[8/14] featured f001_002_255-255.mp4  68.1s  2026-11-09T20:00:00+03:00
+  rendered 2095 frames in 148s
+[9/14] featured f002_093_001-011.mp4  69.8s  2026-11-10T10:00:00+03:00
+  rendered 1318 frames in 93s
+[10/14] featured f003_094_001-008.mp4  43.9s  2026-11-10T20:00:00+03:00
+  rendered 2986 frames in 214s
+[11/14] featured f004_002_285-286.mp4  99.5s  2026-11-11T10:00:00+03:00
+  rendered 2451 frames in 172s
+[12/14] featured f005_112_001-006.mp4  81.7s  2026-11-11T20:00:00+03:00
+  rendered 781 frames in 56s
+[13/14] featured f006_013_028-029.mp4  26.0s  2026-11-12T10:00:00+03:00
+  rendered 1239 frames in 90s
+[14/14] featured f007_039_053-054.mp4  41.3s  2026-11-12T20:00:00+03:00
+Next position: {'next_surah': 2, 'next_ayah': 113, 'next_background': 60, 'clips_made': 74, 'khatmas_completed': 0, 'next_painting': 14, 'khatma_clips': 67, 'next_featured': 7}
