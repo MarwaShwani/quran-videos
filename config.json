@@ -41,8 +41,8 @@
     }
   },
   "caption": {
-    "khatma_template": "سورة {surah} | {range} 🤍\nختمة القرآن كاملة بصوت {reciter} — الحلقة {episode}\n\nتابع الحساب حتى نكمل الختمة سوا 🤍 وشاركها صدقة جارية لك ولوالديك 🤲\n\n{hashtags}",
-    "featured_template": "{hook} 🤍\n{place} — بصوت {reciter}\n\nشاركها لعلها تكون صدقة جارية لك ولوالديك 🤲\n\n{hashtags}",
+    "khatma_template": "سورة {surah} | {range}\nبصوت {reciter} (مرتّل)\n\nشاركها لعلها تكون صدقة جارية لك ولوالديك\n\n{hashtags}",
+    "featured_template": "{hook}\n{place} — بصوت {reciter}\n\nشاركها لعلها تكون صدقة جارية لك ولوالديك\n\n{hashtags}",
     "hashtag_sets": [
       [
         "#قرآن",
@@ -67,7 +67,7 @@
       ]
     ],
     "surah_hashtag_prefix": "#سورة_",
-    "_note": "Khatma clips carry an episode number (series -> follows). Featured clips lead with a short hook. Hashtag sets rotate so captions stay unique when the featured list repeats."
+    "_note": "The account is a sadaqa jariya for a deceased person: no emojis, no follow/comment requests, no episode numbers. Hashtag sets rotate so featured captions stay unique when the list repeats."
   },
   "backgrounds": {
     "library_size": 40,
