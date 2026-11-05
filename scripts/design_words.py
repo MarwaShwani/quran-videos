@@ -252,8 +252,14 @@ def _with_alpha(spr, a):
 
 
 def render(clip, painting, lib_dir, items, wav, a_dur, out_path, handle, label, log):
-    total = round(a_dur + 1.5, 2)          # 0.5 s lead-in, 1 s tail (audio delayed 0.5 s)
-    lead = 0.5
+    """Hook-first timing: the recitation's leading silence is cut so the first
+    word is on screen within ~0.2 s, and there is no fade from/to black, so the
+    clip starts instantly and loops cleanly on TikTok."""
+    trim = max(0.0, (items[0]["t"] - 0.2) if items else 0.0)
+    trim = min(trim, 2.5)
+    tail = 0.6
+    total = round(a_dur - trim + tail, 2)
+    lead = -trim                          # item time -> video time
     nframes = int(math.ceil(total * FPS))
 
     src = Image.open(lib_dir / painting["file"]).convert("RGB")
@@ -280,9 +286,10 @@ def render(clip, painting, lib_dir, items, wav, a_dur, out_path, handle, label, 
            "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
            "-i", str(wav),
            "-filter_complex",
-           f"[0:v]fade=t=in:st=0:d=0.6,fade=t=out:st={max(total - 1.0, 0)}:d=1.0,format=yuv420p[v];"
-           f"[1:a]adelay=500|500,loudnorm=I=-14:TP=-1.5:LRA=11,apad=whole_dur={total},"
-           f"afade=t=in:st=0:d=0.4,afade=t=out:st={max(total - 0.8, 0)}:d=0.8[a]",
+           f"[0:v]format=yuv420p[v];"
+           f"[1:a]atrim=start={trim:.3f},asetpts=PTS-STARTPTS,loudnorm=I=-14:TP=-1.5:LRA=11,"
+           f"apad=whole_dur={total},afade=t=in:st=0:d=0.05,"
+           f"afade=t=out:st={max(total - 0.5, 0)}:d=0.5[a]",
            "-map", "[v]", "-map", "[a]", "-t", str(total),
            "-c:v", "libx264", "-preset", "medium", "-crf", "22", "-r", str(FPS),
            "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-movflags", "+faststart",

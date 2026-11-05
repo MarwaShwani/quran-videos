@@ -451,12 +451,60 @@ def render(clip, bg_path, overlay_path, out_path, work):
 def caption(clip):
     c = CONFIG["caption"]
     rc = CONFIG["reciter"]
-    surah_tag = c["surah_hashtag_prefix"] + clip["surah_name"].replace(" ", "_")
-    tags = " ".join(c["hashtags"] + [surah_tag])
-    style_ar = rc["recitations"][clip["style"]]["style_ar"]
-    return c["template"].format(surah=clip["surah_name"],
-                                range=ayah_range_text(clip, for_caption=True),
-                                reciter=rc["name_ar"], style=style_ar, hashtags=tags)
+    sets = c["hashtag_sets"]
+    if clip.get("kind") == "featured":
+        tags = list(sets[clip.get("cycle", 0) % len(sets)])
+        names = []
+        for p in clip["featured_parts"]:
+            names.append(p["surah_name"])
+        tags.insert(1, c["surah_hashtag_prefix"] + names[0].replace(" ", "_"))
+        if len(names) > 1:
+            place = "سور " + " و".join(names)
+        else:
+            place = f"سورة {names[0]} | " + ayah_range_text(clip, for_caption=True)
+        return c["featured_template"].format(hook=clip["hook"], place=place,
+                                             reciter=rc["name_ar"], hashtags=" ".join(tags))
+    tags = list(sets[clip.get("episode", 0) % len(sets)])
+    tags.insert(1, c["surah_hashtag_prefix"] + clip["surah_name"].replace(" ", "_"))
+    return c["khatma_template"].format(surah=clip["surah_name"],
+                                       range=ayah_range_text(clip, for_caption=True),
+                                       reciter=rc["name_ar"],
+                                       episode=str(clip.get("episode", 0)).translate(AR_DIGITS),
+                                       hashtags=" ".join(tags))
+
+
+def plan_featured(state, chapters, audios):
+    """Next clip from the featured list (wraps around; 'cycle' counts the laps)."""
+    items = CONFIG["featured"]["items"]
+    i = state.get("next_featured", 0)
+    item = items[i % len(items)]
+    style = CONFIG["reciter"]["default_style"]
+    audio = audios[style]
+    parts, keys, fparts, total = [], [], [], 0.0
+    for s, a, b in item["parts"]:
+        ch = chapters[s]
+        if a == 1 and ch.get("bismillah_pre") and s != 1:
+            parts.append(audio.path(1, 1))
+            keys.append((1, 1, True))
+            total += audio.dur(1, 1)
+        for x in range(a, b + 1):
+            parts.append(audio.path(s, x))
+            keys.append((s, x, False))
+            total += audio.dur(s, x)
+        fparts.append({"surah_number": s, "surah_name": ch["name_arabic"], "from_ayah": a,
+                       "to_ayah": b})
+    first, last = item["parts"][0], item["parts"][-1]
+    clip = {"kind": "featured", "hook": item["hook"], "cycle": i // len(items),
+            "featured_parts": fparts,
+            "surah_number": first[0], "surah_name": chapters[first[0]]["name_arabic"],
+            "from_ayah": first[1], "to_ayah": first[2] if len(item["parts"]) == 1 else last[2],
+            "whole_surah": len(item["parts"]) == 1 and first[1] == 1
+                           and first[2] == chapters[first[0]]["verses_count"],
+            "with_basmala": any(k[2] for k in keys), "style": style,
+            "audio_seconds": round(total, 2), "parts": [str(p) for p in parts], "keys": keys}
+    new = dict(state)
+    new["next_featured"] = i + 1
+    return clip, new
 
 
 def slots(start_date, count, not_before=None):
@@ -482,7 +530,8 @@ def slots(start_date, count, not_before=None):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--count", type=int, default=21)
+    ap.add_argument("--count", type=int, default=7, help="khatma clips to build")
+    ap.add_argument("--featured", type=int, default=0, help="featured clips to build")
     ap.add_argument("--start-date", required=True, help="YYYY-MM-DD of the first post")
     ap.add_argument("--not-before", default="",
                     help="ISO date-time; skip publish slots earlier than this")
@@ -517,13 +566,23 @@ def main():
     repo = os.environ.get("GITHUB_REPOSITORY", "OWNER/REPO")
     start = dt.date.fromisoformat(args.start_date)
     not_before = dt.datetime.fromisoformat(args.not_before) if args.not_before else None
-    times = slots(start, args.count, not_before)
+    total_n = args.count + args.featured
+    times = slots(start, total_n, not_before)
+    kinds = ["khatma"] * args.count + ["featured"] * args.featured
 
     entries = []
-    for i in range(args.count):
-        clip, state = plan_clip(state, chapters, audios)
-        name = (f"{clip['surah_number']:03d}_{clip['from_ayah']:03d}-"
-                f"{clip['to_ayah']:03d}.mp4")
+    for i, kind in enumerate(kinds):
+        if kind == "featured":
+            clip, state = plan_featured(state, chapters, audios)
+            name = (f"f{state['next_featured']:03d}_{clip['surah_number']:03d}_"
+                    f"{clip['from_ayah']:03d}-{clip['to_ayah']:03d}.mp4")
+        else:
+            clip, state = plan_clip(state, chapters, audios)
+            clip["kind"] = "khatma"
+            state["khatma_clips"] = state.get("khatma_clips", state.get("clips_made", 0)) + 1
+            clip["episode"] = state["khatma_clips"]
+            name = (f"{clip['surah_number']:03d}_{clip['from_ayah']:03d}-"
+                    f"{clip['to_ayah']:03d}.mp4")
         if design == "painting_words":
             pi = args.painting if args.painting >= 0 and i == 0 else state.get("next_painting", 0)
             bg = library[pi % len(library)]
@@ -533,9 +592,9 @@ def main():
             rid = rec_ids[clip["style"]]
             durs = [audios[clip["style"]].dur(s, a) for s, a, _ in clip["keys"]]
             items = dw.build_items(clip, clip["keys"], durs, get_json, rid)
+            label = clip["hook"] if kind == "featured" else f"سورة {clip['surah_name']}"
             secs = dw.render(clip, bg, lib, items, wav, a_dur, out / name,
-                             CONFIG.get("overlay", {}).get("handle"),
-                             f"سورة {clip['surah_name']}", log)
+                             CONFIG.get("overlay", {}).get("handle"), label, log)
             credit = {"source": "Wikimedia Commons (public domain)", "page": bg.get("page"),
                       "title": bg.get("title")}
         else:
@@ -558,13 +617,16 @@ def main():
             "whole_surah": clip["whole_surah"],
             "style": clip["style"],
             "design": design,
+            "kind": kind,
+            "hook": clip.get("hook"),
+            "episode": clip.get("episode"),
             "seconds": secs,
             "publish_at": times[i],
             "caption": caption(clip),
             "background": credit,
         }
         entries.append(entry)
-        log(f"[{i + 1}/{args.count}] {name}  {secs:.1f}s  {entry['publish_at']}")
+        log(f"[{i + 1}/{total_n}] {kind} {name}  {secs:.1f}s  {entry['publish_at']}")
 
     manifest = {"tag": args.tag, "created": dt.datetime.now(dt.timezone.utc).isoformat(),
                 "recitation_ids": rec_ids, "start_date": args.start_date,

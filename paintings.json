@@ -2,13 +2,6 @@
  "_note": "Public-domain landscape paintings from Wikimedia Commons. x = horizontal centre (0..1) of the 9:16 crop.",
  "paintings": [
   {
-   "title": "File:Indian Sunset Deer by a Lake by Albert Bierstadt.jpeg",
-   "x": 0.4,
-   "w": 5626,
-   "h": 3803,
-   "cand": 32
-  },
-  {
    "title": "File:Albert Bierstadt - Among the Sierra Nevada, California - Google Art Project.jpg",
    "x": 0.5,
    "w": 3993,
@@ -393,5 +386,8 @@
    "h": 2668,
    "cand": 243
   }
+ ],
+ "_excluded": [
+  "Indian Sunset Deer by a Lake (Bierstadt) - used by another account, do not use"
  ]
 }

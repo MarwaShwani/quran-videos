@@ -4,18 +4,20 @@ on:
   workflow_dispatch:
     inputs:
       count:
-        description: "How many clips to build (2 per day)"
-        default: "14"
+        description: "Khatma clips to build (posted 10:00)"
+        default: "7"
+      featured:
+        description: "Featured clips to build (posted 20:00)"
+        default: "7"
       start_date:
         description: "Date of the first post, YYYY-MM-DD (empty = tomorrow, Baghdad time)"
         default: ""
       not_before:
         description: "Skip publish slots before this time, e.g. 2026-10-08T15:30:00+03:00"
         default: ""
-  # Weekly schedule paused while the new design (ayah text on screen) is being approved.
-  # The queue already holds enough old-design clips for ~1 week at 2 posts/day.
-  # schedule:
-  #   - cron: "0 4 * * 4"
+  schedule:
+    # Every Thursday 04:00 UTC = 07:00 Baghdad: 7 khatma + 7 featured clips for the week.
+    - cron: "0 4 * * 4"
 
 permissions:
   contents: write
@@ -41,13 +43,13 @@ jobs:
         timeout-minutes: 10
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq ffmpeg libfribidi0 libharfbuzz0b
+          sudo apt-get install -y -qq ffmpeg libraqm0 libfribidi0 libharfbuzz0b
           pip install -q pillow requests arabic-reshaper python-bidi
 
-      - name: Get background library
+      - name: Get painting library
         run: |
-          mkdir -p library
-          gh release download library -D library -R "$GITHUB_REPOSITORY" || echo "No library yet - it will be built"
+          mkdir -p paintings
+          gh release download paintings -D paintings -R "$GITHUB_REPOSITORY" || echo "No paintings yet - they will be downloaded"
 
       - name: Decide batch
         id: batch
@@ -55,7 +57,10 @@ jobs:
           START="${{ github.event.inputs.start_date }}"
           if [ -z "$START" ]; then START=$(TZ=Asia/Baghdad date -d tomorrow +%F); fi
           COUNT="${{ github.event.inputs.count }}"
-          if [ -z "$COUNT" ]; then COUNT=14; fi
+          if [ -z "$COUNT" ]; then COUNT=7; fi
+          FEAT="${{ github.event.inputs.featured }}"
+          if [ -z "$FEAT" ]; then FEAT=7; fi
+          echo "featured=$FEAT" >> "$GITHUB_OUTPUT"
           echo "start=$START" >> "$GITHUB_OUTPUT"
           echo "count=$COUNT" >> "$GITHUB_OUTPUT"
           echo "tag=batch-$START-r${{ github.run_number }}" >> "$GITHUB_OUTPUT"
@@ -69,19 +74,20 @@ jobs:
           set -o pipefail
           python -u scripts/build.py \
             --count "${{ steps.batch.outputs.count }}" \
+            --featured "${{ steps.batch.outputs.featured }}" \
+            --library paintings \
             --start-date "${{ steps.batch.outputs.start }}" \
             --tag "${{ steps.batch.outputs.tag }}" \
             --not-before "${{ github.event.inputs.not_before }}" 2>&1 | tee build.log
 
-      - name: Save background library (first run only)
-        # Runs even if building the clips failed, so the downloaded backgrounds are kept.
+      - name: Save painting library (when it changed)
         if: always()
         run: |
-          if [ -f library/.new ]; then
-            gh release create library -R "$GITHUB_REPOSITORY" \
-              --title "Background library" \
-              --notes "Nature videos from Pixabay, used under the Pixabay Content License. See library.json for credits." \
-              library/*.mp4 library/library.json
+          if [ -f paintings/.new ]; then
+            gh release delete paintings -y --cleanup-tag -R "$GITHUB_REPOSITORY" || true
+            gh release create paintings -R "$GITHUB_REPOSITORY" --title "Painting library" \
+              --notes "Public-domain landscape paintings from Wikimedia Commons. See paintings_lib.json for titles and links." \
+              paintings/*.jpg paintings/paintings_lib.json
           fi
 
       - name: Publish batch
@@ -89,7 +95,7 @@ jobs:
           TAG="${{ steps.batch.outputs.tag }}"
           gh release create "$TAG" -R "$GITHUB_REPOSITORY" \
             --title "Videos from ${{ steps.batch.outputs.start }}" \
-            --notes "Quran clips, recitation by Sheikh Mohamed Siddiq al-Minshawi (Mujawwad). Backgrounds from Pixabay." \
+            --notes "Quran clips, recitation by Sheikh Mohamed Siddiq al-Minshawi (Murattal), word-by-word text. Backgrounds: public-domain paintings (Wikimedia Commons)." \
             out/*.mp4 out/manifest.json
           mkdir -p manifests
           cp out/manifest.json "manifests/$TAG.json"

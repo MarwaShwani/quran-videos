@@ -3,8 +3,8 @@ on:
   workflow_dispatch:
     inputs:
       painting:
-        description: "Painting index to use"
-        default: "0"
+        description: "Painting index to use (-1 = normal rotation)"
+        default: "-1"
 permissions:
   contents: write
 jobs:
@@ -31,7 +31,7 @@ jobs:
       - name: Build preview
         run: |
           set -o pipefail
-          python -u scripts/build.py --preview --design painting_words --count 1 \
+          python -u scripts/build.py --preview --design painting_words --count 1 --featured 1 \
             --painting "${{ github.event.inputs.painting }}" \
             --start-date "$(TZ=Asia/Baghdad date -d tomorrow +%F)" --tag preview \
             --library paintings --out out 2>&1 | tee build.log

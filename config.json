@@ -14,9 +14,10 @@
     "default_style": "murattal"
   },
   "clip": {
-    "min_seconds": 30,
-    "max_seconds": 60,
-    "prepend_basmala": true
+    "min_seconds": 20,
+    "max_seconds": 40,
+    "prepend_basmala": true,
+    "_note": "Shorter clips (20-40 s) are watched to the end and replayed more often, which is what TikTok rewards."
   },
   "short_surahs": {
     "_note": "Al-Fatiha and any surah whose whole murattal recitation fits in max_seconds are posted as ONE video in murattal.",
@@ -33,16 +34,40 @@
       "10:00",
       "20:00"
     ],
-    "_note": "10:00 and 20:00 Baghdad = the two daily TikTok peaks for Iraq (Metricool best-time data + general evening peak)."
+    "_note": "10:00 = next part of the sequential khatma; 20:00 (prime time) = a well-known / comforting passage from the featured list.",
+    "slots": {
+      "10:00": "khatma",
+      "20:00": "featured"
+    }
   },
   "caption": {
-    "hashtags": [
-      "#العراق",
-      "#صدقه_جاريه",
-      "#القران_الكريم"
+    "khatma_template": "سورة {surah} | {range} 🤍\nختمة القرآن كاملة بصوت {reciter} — الحلقة {episode}\n\nتابع الحساب حتى نكمل الختمة سوا 🤍 وشاركها صدقة جارية لك ولوالديك 🤲\n\n{hashtags}",
+    "featured_template": "{hook} 🤍\n{place} — بصوت {reciter}\n\nاكتب «سبحان الله» 🤍 وشاركها لعلها تكون صدقة جارية لك ولوالديك 🤲\n\n{hashtags}",
+    "hashtag_sets": [
+      [
+        "#قرآن",
+        "#تلاوة_خاشعة",
+        "#المنشاوي",
+        "#راحة_نفسية",
+        "#العراق"
+      ],
+      [
+        "#القران_الكريم",
+        "#تلاوة",
+        "#صدقه_جاريه",
+        "#quran",
+        "#العراق"
+      ],
+      [
+        "#قران_كريم",
+        "#راحة_القلب",
+        "#المنشاوي",
+        "#اكسبلور",
+        "#العراق"
+      ]
     ],
     "surah_hashtag_prefix": "#سورة_",
-    "template": "سورة {surah} | {range} 🤍\nبصوت {reciter} ({style})\n\nشاركها لعلها تكون صدقة جارية لك ولوالديك 🤲\n\n{hashtags}"
+    "_note": "Khatma clips carry an episode number (series -> follows). Featured clips lead with a short hook. Hashtag sets rotate so captions stay unique when the featured list repeats."
   },
   "backgrounds": {
     "library_size": 40,
@@ -109,5 +134,372 @@
   },
   "overlay": {
     "handle": "@sadaqajaree"
+  },
+  "design": "painting_words",
+  "featured": {
+    "_note": "Played in order at 20:00, then repeated from the top (with a different hashtag set). Each entry: parts = [[surah, from_ayah, to_ayah], ...], hook = on-screen title and first caption line.",
+    "max_seconds": 120,
+    "items": [
+      {
+        "parts": [
+          [
+            2,
+            255,
+            255
+          ]
+        ],
+        "hook": "آية الكرسي"
+      },
+      {
+        "parts": [
+          [
+            93,
+            1,
+            11
+          ]
+        ],
+        "hook": "سورة الضحى.. لما يضيق صدرك اسمعها"
+      },
+      {
+        "parts": [
+          [
+            94,
+            1,
+            8
+          ]
+        ],
+        "hook": "فإنّ مع العسر يسرا"
+      },
+      {
+        "parts": [
+          [
+            2,
+            285,
+            286
+          ]
+        ],
+        "hook": "خواتيم سورة البقرة"
+      },
+      {
+        "parts": [
+          [
+            112,
+            1,
+            4
+          ],
+          [
+            113,
+            1,
+            5
+          ],
+          [
+            114,
+            1,
+            6
+          ]
+        ],
+        "hook": "المعوذات.. حصّن نفسك قبل النوم"
+      },
+      {
+        "parts": [
+          [
+            13,
+            28,
+            29
+          ]
+        ],
+        "hook": "ألا بذكر الله تطمئن القلوب"
+      },
+      {
+        "parts": [
+          [
+            39,
+            53,
+            54
+          ]
+        ],
+        "hook": "لا تقنطوا من رحمة الله"
+      },
+      {
+        "parts": [
+          [
+            2,
+            186,
+            186
+          ]
+        ],
+        "hook": "وإذا سألك عبادي عني فإني قريب"
+      },
+      {
+        "parts": [
+          [
+            65,
+            2,
+            3
+          ]
+        ],
+        "hook": "ومن يتّقِ الله يجعل له مخرجا"
+      },
+      {
+        "parts": [
+          [
+            67,
+            1,
+            4
+          ]
+        ],
+        "hook": "بداية سورة الملك"
+      },
+      {
+        "parts": [
+          [
+            20,
+            25,
+            28
+          ]
+        ],
+        "hook": "ربِّ اشرح لي صدري"
+      },
+      {
+        "parts": [
+          [
+            21,
+            87,
+            88
+          ]
+        ],
+        "hook": "دعاء ذي النون"
+      },
+      {
+        "parts": [
+          [
+            2,
+            152,
+            153
+          ]
+        ],
+        "hook": "فاذكروني أذكركم"
+      },
+      {
+        "parts": [
+          [
+            14,
+            7,
+            7
+          ]
+        ],
+        "hook": "لئن شكرتم لأزيدنّكم"
+      },
+      {
+        "parts": [
+          [
+            40,
+            60,
+            60
+          ]
+        ],
+        "hook": "ادعوني أستجب لكم"
+      },
+      {
+        "parts": [
+          [
+            55,
+            1,
+            13
+          ]
+        ],
+        "hook": "فبأيّ آلاء ربكما تكذبان"
+      },
+      {
+        "parts": [
+          [
+            103,
+            1,
+            3
+          ]
+        ],
+        "hook": "سورة العصر"
+      },
+      {
+        "parts": [
+          [
+            50,
+            16,
+            16
+          ]
+        ],
+        "hook": "ونحن أقرب إليه من حبل الوريد"
+      },
+      {
+        "parts": [
+          [
+            9,
+            51,
+            51
+          ]
+        ],
+        "hook": "قل لن يصيبنا إلا ما كتب الله لنا"
+      },
+      {
+        "parts": [
+          [
+            2,
+            216,
+            216
+          ]
+        ],
+        "hook": "وعسى أن تكرهوا شيئاً وهو خيرٌ لكم"
+      },
+      {
+        "parts": [
+          [
+            12,
+            86,
+            87
+          ]
+        ],
+        "hook": "إنما أشكو بثّي وحزني إلى الله"
+      },
+      {
+        "parts": [
+          [
+            3,
+            139,
+            139
+          ]
+        ],
+        "hook": "ولا تهنوا ولا تحزنوا"
+      },
+      {
+        "parts": [
+          [
+            97,
+            1,
+            5
+          ]
+        ],
+        "hook": "سورة القدر"
+      },
+      {
+        "parts": [
+          [
+            36,
+            1,
+            9
+          ]
+        ],
+        "hook": "بداية سورة يس"
+      },
+      {
+        "parts": [
+          [
+            59,
+            22,
+            24
+          ]
+        ],
+        "hook": "هو الله الذي لا إله إلا هو"
+      },
+      {
+        "parts": [
+          [
+            18,
+            1,
+            5
+          ]
+        ],
+        "hook": "بداية سورة الكهف"
+      },
+      {
+        "parts": [
+          [
+            2,
+            201,
+            202
+          ]
+        ],
+        "hook": "ربنا آتنا في الدنيا حسنة"
+      },
+      {
+        "parts": [
+          [
+            3,
+            190,
+            191
+          ]
+        ],
+        "hook": "إنّ في خلق السماوات والأرض"
+      },
+      {
+        "parts": [
+          [
+            25,
+            63,
+            67
+          ]
+        ],
+        "hook": "وعباد الرحمن"
+      },
+      {
+        "parts": [
+          [
+            108,
+            1,
+            3
+          ]
+        ],
+        "hook": "سورة الكوثر"
+      },
+      {
+        "parts": [
+          [
+            99,
+            1,
+            8
+          ]
+        ],
+        "hook": "سورة الزلزلة"
+      },
+      {
+        "parts": [
+          [
+            57,
+            4,
+            4
+          ]
+        ],
+        "hook": "وهو معكم أين ما كنتم"
+      },
+      {
+        "parts": [
+          [
+            102,
+            1,
+            8
+          ]
+        ],
+        "hook": "سورة التكاثر"
+      },
+      {
+        "parts": [
+          [
+            1,
+            1,
+            7
+          ]
+        ],
+        "hook": "سورة الفاتحة"
+      },
+      {
+        "parts": [
+          [
+            3,
+            8,
+            9
+          ]
+        ],
+        "hook": "ربنا لا تُزغ قلوبنا"
+      }
+    ]
   }
 }

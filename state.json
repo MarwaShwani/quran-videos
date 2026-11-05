@@ -3,5 +3,8 @@
   "next_ayah": 105,
   "next_background": 60,
   "clips_made": 60,
-  "khatmas_completed": 0
+  "khatmas_completed": 0,
+  "next_painting": 0,
+  "khatma_clips": 60,
+  "next_featured": 0
 }
