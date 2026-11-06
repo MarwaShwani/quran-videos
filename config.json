@@ -1,21 +1,5 @@
 {
   "reciter": {
-    "name_ar": "الشيخ محمد صديق المنشاوي",
-    "recitations": {
-      "mujawwad": {
-        "id": 8,
-        "style_ar": "مجوّد"
-      },
-      "murattal": {
-        "id": 9,
-        "style_ar": "مرتّل"
-      }
-    },
-    "default_style": "murattal",
-    "hashtag": "#المنشاوي"
-  },
-  "featured_reciter": {
-    "_note": "Reciter for the featured clips (20:00). The khatma (10:00) stays with 'reciter'. Remove this block to go back to one reciter for everything.",
     "name_ar": "الشيخ عبدالباسط عبدالصمد",
     "hashtag": "#عبدالباسط_عبدالصمد",
     "recitations": {
@@ -64,7 +48,7 @@
       [
         "#قرآن",
         "#تلاوة_خاشعة",
-        "#المنشاوي",
+        "#عبدالباسط_عبدالصمد",
         "#راحة_نفسية",
         "#العراق"
       ],
@@ -78,13 +62,13 @@
       [
         "#قران_كريم",
         "#راحة_القلب",
-        "#المنشاوي",
+        "#عبدالباسط_عبدالصمد",
         "#اكسبلور",
         "#العراق"
       ]
     ],
     "surah_hashtag_prefix": "#سورة_",
-    "_note": "The account is a sadaqa jariya for a deceased person: no emojis, no follow/comment requests, no episode numbers. Hashtag sets rotate so featured captions stay unique when the list repeats. The reciter's own hashtag (reciter.hashtag) is swapped for featured_reciter.hashtag in featured captions."
+    "_note": "The account is a sadaqa jariya for a deceased person: no emojis, no follow/comment requests, no episode numbers. Hashtag sets rotate so featured captions stay unique when the list repeats. If a 'featured_reciter' block is added, its hashtag replaces reciter.hashtag in featured captions."
   },
   "backgrounds": {
     "library_size": 40,

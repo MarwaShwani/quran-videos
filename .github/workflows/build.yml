@@ -95,7 +95,7 @@ jobs:
           TAG="${{ steps.batch.outputs.tag }}"
           gh release create "$TAG" -R "$GITHUB_REPOSITORY" \
             --title "Videos from ${{ steps.batch.outputs.start }}" \
-            --notes "Quran clips, word-by-word text. Khatma: Sheikh Mohamed Siddiq al-Minshawi (Murattal). Featured: Sheikh AbdulBaset AbdulSamad (Murattal). Backgrounds: public-domain paintings (Wikimedia Commons)." \
+            --notes "Quran clips, word-by-word text. Recitation by Sheikh AbdulBaset AbdulSamad (Murattal). Backgrounds: public-domain paintings (Wikimedia Commons)." \
             out/*.mp4 out/manifest.json
           mkdir -p manifests
           cp out/manifest.json "manifests/$TAG.json"
