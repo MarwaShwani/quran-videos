@@ -113,9 +113,18 @@ def duration(path):
 
 # ---------------------------------------------------------------- Quran data
 
-def recitations():
-    """{style: recitation id on quran.com}, e.g. {"mujawwad": 8, "murattal": 9}."""
-    return {k: int(v["id"]) for k, v in CONFIG["reciter"]["recitations"].items()}
+def reciter_block(kind):
+    """Name of the config block whose reciter recites this kind of clip:
+    featured clips use 'featured_reciter' when it is set, the khatma uses 'reciter'."""
+    if kind == "featured" and CONFIG.get("featured_reciter"):
+        return "featured_reciter"
+    return "reciter"
+
+
+def recitations(block="reciter"):
+    """{style: recitation id on quran.com} for one reciter block,
+    e.g. {"mujawwad": 8, "murattal": 9}."""
+    return {k: int(v["id"]) for k, v in CONFIG[block]["recitations"].items()}
 
 
 def load_chapters():
@@ -374,7 +383,7 @@ def make_overlay(clip, path):
         sd.line([(0, y), (W, y)], fill=(0, 0, 0, a))
     img = Image.alpha_composite(img, shade)
 
-    rc = CONFIG["reciter"]
+    rc = CONFIG[reciter_block(clip.get("kind"))]
     rng = ayah_range_text(clip)
     texts = [
         (f"سورة {clip['surah_name']}", _font(FONT_BOLD, 120), 230, (255, 255, 255, 255)),
@@ -450,10 +459,14 @@ def render(clip, bg_path, overlay_path, out_path, work):
 
 def caption(clip):
     c = CONFIG["caption"]
-    rc = CONFIG["reciter"]
+    rc = CONFIG[reciter_block(clip.get("kind"))]
     sets = c["hashtag_sets"]
     if clip.get("kind") == "featured":
         tags = list(sets[clip.get("cycle", 0) % len(sets)])
+        # The hashtag sets name the khatma reciter; use the featured reciter's tag instead.
+        old_tag, new_tag = CONFIG["reciter"].get("hashtag"), rc.get("hashtag")
+        if old_tag and new_tag:
+            tags = [new_tag if t == old_tag else t for t in tags]
         names = []
         for p in clip["featured_parts"]:
             names.append(p["surah_name"])
@@ -474,11 +487,12 @@ def caption(clip):
 
 
 def plan_featured(state, chapters, audios):
-    """Next clip from the featured list (wraps around; 'cycle' counts the laps)."""
+    """Next clip from the featured list (wraps around; 'cycle' counts the laps).
+    audios: {style: Audio} of the featured reciter."""
     items = CONFIG["featured"]["items"]
     i = state.get("next_featured", 0)
     item = items[i % len(items)]
-    style = CONFIG["reciter"]["default_style"]
+    style = CONFIG[reciter_block("featured")]["default_style"]
     audio = audios[style]
     parts, keys, fparts, total = [], [], [], 0.0
     for s, a, b in item["parts"]:
@@ -554,9 +568,13 @@ def main():
     design = args.design or CONFIG.get("design", "nature_video")
     log("Design:", design)
 
-    rec_ids = recitations()
+    # {reciter block: {style: recitation id}} and {reciter block: {style: Audio}}
+    rec_ids = {b: recitations(b) for b in ("reciter", reciter_block("featured"))}
+    for b, ids in rec_ids.items():
+        log(f"Reciter ({b}):", CONFIG[b]["name_ar"], ids)
     chapters = load_chapters()
-    audios = {style: Audio(rid, work / "audio" / str(rid)) for style, rid in rec_ids.items()}
+    audios = {b: {style: Audio(rid, work / "audio" / str(rid)) for style, rid in ids.items()}
+              for b, ids in rec_ids.items()}
     if design == "painting_words":
         import design_words as dw
         library = dw.load_paintings(lib, session, log)
@@ -572,12 +590,13 @@ def main():
 
     entries = []
     for i, kind in enumerate(kinds):
+        block = reciter_block(kind)
         if kind == "featured":
-            clip, state = plan_featured(state, chapters, audios)
+            clip, state = plan_featured(state, chapters, audios[block])
             name = (f"f{state['next_featured']:03d}_{clip['surah_number']:03d}_"
                     f"{clip['from_ayah']:03d}-{clip['to_ayah']:03d}.mp4")
         else:
-            clip, state = plan_clip(state, chapters, audios)
+            clip, state = plan_clip(state, chapters, audios[block])
             clip["kind"] = "khatma"
             state["khatma_clips"] = state.get("khatma_clips", state.get("clips_made", 0)) + 1
             clip["episode"] = state["khatma_clips"]
@@ -589,8 +608,8 @@ def main():
             if not (args.painting >= 0 and i == 0):
                 state["next_painting"] = state.get("next_painting", 0) + 1
             wav, a_dur = concat_audio(clip, work)
-            rid = rec_ids[clip["style"]]
-            durs = [audios[clip["style"]].dur(s, a) for s, a, _ in clip["keys"]]
+            rid = rec_ids[block][clip["style"]]
+            durs = [audios[block][clip["style"]].dur(s, a) for s, a, _ in clip["keys"]]
             items = dw.build_items(clip, clip["keys"], durs, get_json, rid)
             label = clip["hook"] if kind == "featured" else f"سورة {clip['surah_name']}"
             secs = dw.render(clip, bg, lib, items, wav, a_dur, out / name,
@@ -616,6 +635,8 @@ def main():
             "with_basmala": clip["with_basmala"],
             "whole_surah": clip["whole_surah"],
             "style": clip["style"],
+            "reciter": CONFIG[block]["name_ar"],
+            "recitation_id": rec_ids[block][clip["style"]],
             "design": design,
             "kind": kind,
             "hook": clip.get("hook"),
@@ -629,7 +650,9 @@ def main():
         log(f"[{i + 1}/{total_n}] {kind} {name}  {secs:.1f}s  {entry['publish_at']}")
 
     manifest = {"tag": args.tag, "created": dt.datetime.now(dt.timezone.utc).isoformat(),
-                "recitation_ids": rec_ids, "start_date": args.start_date,
+                "recitation_ids": rec_ids["reciter"],
+                "featured_recitation_ids": rec_ids[reciter_block("featured")],
+                "start_date": args.start_date,
                 "design": design, "posts": entries}
     (out / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2),
                                        encoding="utf-8")

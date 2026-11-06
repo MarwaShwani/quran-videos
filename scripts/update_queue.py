@@ -30,6 +30,7 @@ def main(path):
             "from_ayah": p["from_ayah"],
             "to_ayah": p["to_ayah"],
             "style": p.get("style"),
+            "reciter": p.get("reciter"),
             "kind": p.get("kind", "khatma"),
             "hook": p.get("hook"),
             "seconds": p["seconds"],

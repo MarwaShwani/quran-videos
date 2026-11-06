@@ -11,6 +11,23 @@
         "style_ar": "مرتّل"
       }
     },
+    "default_style": "murattal",
+    "hashtag": "#المنشاوي"
+  },
+  "featured_reciter": {
+    "_note": "Reciter for the featured clips (20:00). The khatma (10:00) stays with 'reciter'. Remove this block to go back to one reciter for everything.",
+    "name_ar": "الشيخ عبدالباسط عبدالصمد",
+    "hashtag": "#عبدالباسط_عبدالصمد",
+    "recitations": {
+      "mujawwad": {
+        "id": 1,
+        "style_ar": "مجوّد"
+      },
+      "murattal": {
+        "id": 2,
+        "style_ar": "مرتّل"
+      }
+    },
     "default_style": "murattal"
   },
   "clip": {
@@ -67,7 +84,7 @@
       ]
     ],
     "surah_hashtag_prefix": "#سورة_",
-    "_note": "The account is a sadaqa jariya for a deceased person: no emojis, no follow/comment requests, no episode numbers. Hashtag sets rotate so featured captions stay unique when the list repeats."
+    "_note": "The account is a sadaqa jariya for a deceased person: no emojis, no follow/comment requests, no episode numbers. Hashtag sets rotate so featured captions stay unique when the list repeats. The reciter's own hashtag (reciter.hashtag) is swapped for featured_reciter.hashtag in featured captions."
   },
   "backgrounds": {
     "library_size": 40,
