@@ -1,33 +1,33 @@
-run: 43214592445  job status: success  Thu Nov 12 12:18:47 UTC 2026
-Start position: {'next_surah': 2, 'next_ayah': 69, 'next_background': 60, 'clips_made': 116, 'khatmas_completed': 0, 'next_painting': 56, 'khatma_clips': 88, 'next_featured': 15}
+run: 44523612460  job status: success  Thu Nov 19 12:39:17 UTC 2026
+Start position: {'next_surah': 2, 'next_ayah': 77, 'next_background': 60, 'clips_made': 130, 'khatmas_completed': 0, 'next_painting': 70, 'khatma_clips': 95, 'next_featured': 22}
 Design: painting_words
 Reciter (reciter): الشيخ عبدالباسط عبدالصمد {'mujawwad': 1, 'murattal': 2}
-  rendered 803 frames in 45s
-[1/14] khatma 002_069-069.mp4  26.7s  2026-11-13T10:00:00+03:00
-  rendered 675 frames in 37s
-[2/14] khatma 002_070-070.mp4  22.5s  2026-11-13T20:00:00+03:00
-  rendered 1033 frames in 56s
-[3/14] khatma 002_071-071.mp4  34.4s  2026-11-14T10:00:00+03:00
-  rendered 1096 frames in 63s
-[4/14] khatma 002_072-073.mp4  36.5s  2026-11-14T20:00:00+03:00
-  rendered 1683 frames in 94s
-[5/14] khatma 002_074-074.mp4  56.1s  2026-11-15T10:00:00+03:00
-  rendered 781 frames in 44s
-[6/14] khatma 002_075-075.mp4  26.0s  2026-11-15T20:00:00+03:00
-  rendered 1455 frames in 79s
-[7/14] khatma 002_076-076.mp4  48.5s  2026-11-16T10:00:00+03:00
-  rendered 2261 frames in 123s
-[8/14] featured f016_055_001-013.mp4  75.3s  2026-11-16T20:00:00+03:00
-  rendered 695 frames in 39s
-[9/14] featured f017_103_001-003.mp4  23.2s  2026-11-17T10:00:00+03:00
-  rendered 478 frames in 27s
-[10/14] featured f018_050_016-016.mp4  15.9s  2026-11-17T20:00:00+03:00
-  rendered 480 frames in 28s
-[11/14] featured f019_009_051-051.mp4  16.0s  2026-11-18T10:00:00+03:00
-  rendered 1186 frames in 64s
-[12/14] featured f020_002_216-216.mp4  39.5s  2026-11-18T20:00:00+03:00
-  rendered 981 frames in 56s
-[13/14] featured f021_012_086-087.mp4  32.7s  2026-11-19T10:00:00+03:00
-  rendered 411 frames in 25s
-[14/14] featured f022_003_139-139.mp4  13.7s  2026-11-19T20:00:00+03:00
-Next position: {'next_surah': 2, 'next_ayah': 77, 'next_background': 60, 'clips_made': 130, 'khatmas_completed': 0, 'next_painting': 70, 'khatma_clips': 95, 'next_featured': 22}
+  rendered 969 frames in 41s
+[1/14] khatma 002_077-078.mp4  32.3s  2026-11-20T10:00:00+03:00
+  rendered 1215 frames in 48s
+[2/14] khatma 002_079-079.mp4  40.5s  2026-11-20T20:00:00+03:00
+  rendered 1119 frames in 45s
+[3/14] khatma 002_080-080.mp4  37.3s  2026-11-21T10:00:00+03:00
+  rendered 653 frames in 28s
+[4/14] khatma 002_081-081.mp4  21.8s  2026-11-21T20:00:00+03:00
+  rendered 537 frames in 23s
+[5/14] khatma 002_082-082.mp4  17.9s  2026-11-22T10:00:00+03:00
+  rendered 1993 frames in 80s
+[6/14] khatma 002_083-083.mp4  66.4s  2026-11-22T20:00:00+03:00
+  rendered 1123 frames in 45s
+[7/14] khatma 002_084-084.mp4  37.4s  2026-11-23T10:00:00+03:00
+  rendered 1226 frames in 50s
+[8/14] featured f023_097_001-005.mp4  40.9s  2026-11-23T20:00:00+03:00
+  rendered 2020 frames in 81s
+[9/14] featured f024_036_001-009.mp4  67.3s  2026-11-24T10:00:00+03:00
+  rendered 1899 frames in 79s
+[10/14] featured f025_059_022-024.mp4  63.3s  2026-11-24T20:00:00+03:00
+  rendered 2268 frames in 96s
+[11/14] featured f026_018_001-005.mp4  75.6s  2026-11-25T10:00:00+03:00
+  rendered 1137 frames in 47s
+[12/14] featured f027_002_201-202.mp4  37.9s  2026-11-25T20:00:00+03:00
+  rendered 1513 frames in 61s
+[13/14] featured f028_003_190-191.mp4  50.4s  2026-11-26T10:00:00+03:00
+  rendered 1560 frames in 65s
+[14/14] featured f029_025_063-067.mp4  52.0s  2026-11-26T20:00:00+03:00
+Next position: {'next_surah': 2, 'next_ayah': 85, 'next_background': 60, 'clips_made': 144, 'khatmas_completed': 0, 'next_painting': 84, 'khatma_clips': 102, 'next_featured': 29}
